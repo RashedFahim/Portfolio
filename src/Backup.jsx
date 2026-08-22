@@ -342,6 +342,13 @@ function TerminalOrb() {
   const [outText, setOutText] = useState("");
   const [phase, setPhase] = useState("cmd");
   const [history, setHistory] = useState([]);
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [history, cmdText, outText, phase]);
 
   useEffect(() => {
     const current = TERMINAL_LINES[lineIdx];
@@ -399,6 +406,11 @@ function TerminalOrb() {
         <style>{`
           @keyframes terminalCursorBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
           .cursor-blink { animation: terminalCursorBlink 1s step-end infinite; }
+          .terminal-scroll::-webkit-scrollbar { display: none; }
+          .terminal-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+          @media (max-width: 640px) {
+            .terminal-scroll { height: 200px !important; }
+          }
         `}</style>
         
         {/* Title bar with hover effect */}
@@ -414,8 +426,12 @@ function TerminalOrb() {
           </span>
         </div>
 
-        {/* Terminal body - REMOVED min-h and overflow-hidden */}
-        <div className="flex-1 px-5 py-4 text-sm leading-relaxed transition-all duration-300 group-hover:bg-white/[0.02]">
+        {/* Terminal body — fixed height + internal scroll so the box never resizes the page as lines type/clear */}
+        <div
+          ref={scrollRef}
+          className="terminal-scroll px-5 py-4 text-sm leading-relaxed transition-all duration-300 group-hover:bg-white/[0.02] overflow-y-auto"
+          style={{ height: 260 }}
+        >
           {history.map((h, i) => (
             <div key={i} className="mb-3 transition-all duration-300 hover:translate-x-1">
               <div style={{ color: C.textMuted }} className="transition-all duration-300 group-hover:text-gray-300">
@@ -797,45 +813,45 @@ function PortfolioContent() {
   }, []);
 
   // === DISABLE INSPECT ===
-  // useEffect(() => {
-  //   // Disable right-click
-  //   const handleContextMenu = (e) => {
-  //     e.preventDefault();
-  //     return false;
-  //   };
+  useEffect(() => {
+    // Disable right-click
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      return false;
+    };
 
-  //   // Disable keyboard shortcuts for inspect
-  //   const handleKeyDown = (e) => {
-  //     // F12 key
-  //     if (e.key === 'F12' || e.keyCode === 123) {
-  //       e.preventDefault();
-  //       return false;
-  //     }
-  //     // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-  //     if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) {
-  //       e.preventDefault();
-  //       return false;
-  //     }
-  //     // Ctrl+U
-  //     if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
-  //       e.preventDefault();
-  //       return false;
-  //     }
-  //     // Ctrl+S
-  //     if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
-  //       e.preventDefault();
-  //       return false;
-  //     }
-  //   };
+    // Disable keyboard shortcuts for inspect
+    const handleKeyDown = (e) => {
+      // F12 key
+      if (e.key === 'F12' || e.keyCode === 123) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+U
+      if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+S
+      if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
+        e.preventDefault();
+        return false;
+      }
+    };
 
-  //   document.addEventListener('contextmenu', handleContextMenu);
-  //   document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
 
-  //   return () => {
-  //     document.removeEventListener('contextmenu', handleContextMenu);
-  //     document.removeEventListener('keydown', handleKeyDown);
-  //   };
-  // }, []);
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   const SERVICE_ID = 'service_b4v41vb';
   const TEMPLATE_ID = 'template_zu78q4t';
