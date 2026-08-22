@@ -198,6 +198,47 @@ export default function Resume() {
   useGoogleFonts();
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // === DISABLE INSPECT ===
+  useEffect(() => {
+    // Disable right-click
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      return false;
+    };
+
+    // Disable keyboard shortcuts for inspect
+    const handleKeyDown = (e) => {
+      // F12 key
+      if (e.key === 'F12' || e.keyCode === 123) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+U
+      if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+S
+      if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   const handleDownloadPDF = () => {
     const pdfUrl = '/CV_Rashed Fahim Chowdhury.pdf';
     const link = document.createElement('a');
@@ -229,6 +270,29 @@ export default function Resume() {
         .resume-section:last-child {
           border-bottom: none;
           margin-bottom: 0;
+        }
+
+        /* Disable text selection */
+        * {
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        /* Disable image dragging */
+        img {
+          -webkit-user-drag: none;
+          user-drag: none;
+          pointer-events: none;
+        }
+
+        /* Keep text selectable on inputs */
+        input, textarea, [contenteditable] {
+          -webkit-user-select: text;
+          -moz-user-select: text;
+          -ms-user-select: text;
+          user-select: text;
         }
 
         /* Scroll Animation Styles */
