@@ -797,45 +797,45 @@ function PortfolioContent() {
   }, []);
 
   // === DISABLE INSPECT ===
-  useEffect(() => {
-    // Disable right-click
-    const handleContextMenu = (e) => {
-      e.preventDefault();
-      return false;
-    };
+  // useEffect(() => {
+  //   // Disable right-click
+  //   const handleContextMenu = (e) => {
+  //     e.preventDefault();
+  //     return false;
+  //   };
 
-    // Disable keyboard shortcuts for inspect
-    const handleKeyDown = (e) => {
-      // F12 key
-      if (e.key === 'F12' || e.keyCode === 123) {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+U
-      if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+S
-      if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
-        e.preventDefault();
-        return false;
-      }
-    };
+  //   // Disable keyboard shortcuts for inspect
+  //   const handleKeyDown = (e) => {
+  //     // F12 key
+  //     if (e.key === 'F12' || e.keyCode === 123) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //     // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+  //     if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //     // Ctrl+U
+  //     if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //     // Ctrl+S
+  //     if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //   };
 
-    document.addEventListener('contextmenu', handleContextMenu);
-    document.addEventListener('keydown', handleKeyDown);
+  //   document.addEventListener('contextmenu', handleContextMenu);
+  //   document.addEventListener('keydown', handleKeyDown);
 
-    return () => {
-      document.removeEventListener('contextmenu', handleContextMenu);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener('contextmenu', handleContextMenu);
+  //     document.removeEventListener('keydown', handleKeyDown);
+  //   };
+  // }, []);
 
   const SERVICE_ID = 'service_b4v41vb';
   const TEMPLATE_ID = 'template_zu78q4t';
@@ -1110,7 +1110,7 @@ function PortfolioContent() {
               </button>
             </div>
             
-            <div className="flex items-center gap-10 overflow-x-auto">
+            <div className="hidden lg:flex items-center gap-8 xl:gap-10 overflow-x-auto">
               {NAV.map((n) => (
                 <button
                   key={n.id}
@@ -1155,7 +1155,7 @@ function PortfolioContent() {
               <span className="md:hidden">●</span>
               
               <button 
-                className="md:hidden ml-2" 
+                className="lg:hidden ml-2" 
                 onClick={() => setMenuOpen((v) => !v)} 
                 aria-label="Toggle menu"
               >
@@ -1165,7 +1165,20 @@ function PortfolioContent() {
           </div>
 
           {menuOpen && (
-            <div className="md:hidden px-4 pb-4 flex flex-col gap-3">
+            <div className="lg:hidden px-4 pb-4 flex flex-col gap-3 max-h-[70vh] overflow-y-auto">
+              {NAV.map((n) => (
+                <button
+                  key={n.id}
+                  onClick={() => { scrollTo(n.id); setMenuOpen(false); }}
+                  className="text-sm text-left font-medium tracking-wide"
+                  style={{ 
+                    fontFamily: "'JetBrains Mono', monospace", 
+                    color: C.textMuted 
+                  }}
+                >
+                  {n.label.toUpperCase()}
+                </button>
+              ))}
               {EXT_LINKS.map((l) => (
                 <Link
                   key={l.label}
@@ -1181,7 +1194,7 @@ function PortfolioContent() {
                 </Link>
               ))}
               <div 
-                className="flex items-center gap-2 text-sm"
+                className="flex items-center gap-2 text-sm pt-1"
                 style={{ 
                   fontFamily: "'JetBrains Mono', monospace", 
                   color: C.green 
@@ -1208,10 +1221,10 @@ function PortfolioContent() {
                   Hello, I'm
                 </p>
                 <h1 className="leading-[0.95] mb-6" style={{ fontFamily: "'Archivo Black', sans-serif" }}>
-                  <span className="block text-6xl md:text-7xl lg:text-8xl" style={{ color: C.text }}>
+                  <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl" style={{ color: C.text }}>
                     MD. RASHED FAHIM
                   </span>
-                  <span className="block text-6xl md:text-7xl lg:text-8xl mt-1" style={{ color: C.green }}>
+                  <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl mt-1" style={{ color: C.green }}>
                     CHOWDHURY
                   </span>
                 </h1>
