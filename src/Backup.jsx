@@ -1733,7 +1733,6 @@ export default function App() {
       <Routes>
         <Route path="/" element={<PortfolioContent />} />
         <Route path="/resume" element={<Resume />} />
-        <Route path="*" element={<PortfolioContent />} /> {/* Catch-all route */}
       </Routes>
     </Router>
   );
