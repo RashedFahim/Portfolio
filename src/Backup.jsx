@@ -803,45 +803,45 @@ function PortfolioContent() {
   }, []);
 
   // === DISABLE INSPECT ===
-  // useEffect(() => {
-  //   // Disable right-click
-  //   const handleContextMenu = (e) => {
-  //     e.preventDefault();
-  //     return false;
-  //   };
+  useEffect(() => {
+    // Disable right-click
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      return false;
+    };
 
-  //   // Disable keyboard shortcuts for inspect
-  //   const handleKeyDown = (e) => {
-  //     // F12 key
-  //     if (e.key === 'F12' || e.keyCode === 123) {
-  //       e.preventDefault();
-  //       return false;
-  //     }
-  //     // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-  //     if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) {
-  //       e.preventDefault();
-  //       return false;
-  //     }
-  //     // Ctrl+U
-  //     if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
-  //       e.preventDefault();
-  //       return false;
-  //     }
-  //     // Ctrl+S
-  //     if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
-  //       e.preventDefault();
-  //       return false;
-  //     }
-  //   };
+    // Disable keyboard shortcuts for inspect
+    const handleKeyDown = (e) => {
+      // F12 key
+      if (e.key === 'F12' || e.keyCode === 123) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+U
+      if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+S
+      if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
+        e.preventDefault();
+        return false;
+      }
+    };
 
-  //   document.addEventListener('contextmenu', handleContextMenu);
-  //   document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
 
-  //   return () => {
-  //     document.removeEventListener('contextmenu', handleContextMenu);
-  //     document.removeEventListener('keydown', handleKeyDown);
-  //   };
-  // }, []);
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   const SERVICE_ID = 'service_b4v41vb';
   const TEMPLATE_ID = 'template_zu78q4t';
