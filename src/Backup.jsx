@@ -802,7 +802,7 @@ function PortfolioContent() {
     return () => clearTimeout(timer);
   }, []);
 
-  === DISABLE INSPECT ===
+  // === DISABLE INSPECT ===
   useEffect(() => {
     // Disable right-click
     const handleContextMenu = (e) => {
