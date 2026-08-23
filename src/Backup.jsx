@@ -803,45 +803,45 @@ function PortfolioContent() {
   }, []);
 
   // === DISABLE INSPECT ===
-  useEffect(() => {
-    // Disable right-click
-    const handleContextMenu = (e) => {
-      e.preventDefault();
-      return false;
-    };
+  // useEffect(() => {
+  //   // Disable right-click
+  //   const handleContextMenu = (e) => {
+  //     e.preventDefault();
+  //     return false;
+  //   };
 
-    // Disable keyboard shortcuts for inspect
-    const handleKeyDown = (e) => {
-      // F12 key
-      if (e.key === 'F12' || e.keyCode === 123) {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+U
-      if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+S
-      if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
-        e.preventDefault();
-        return false;
-      }
-    };
+  //   // Disable keyboard shortcuts for inspect
+  //   const handleKeyDown = (e) => {
+  //     // F12 key
+  //     if (e.key === 'F12' || e.keyCode === 123) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //     // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+  //     if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //     // Ctrl+U
+  //     if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //     // Ctrl+S
+  //     if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //   };
 
-    document.addEventListener('contextmenu', handleContextMenu);
-    document.addEventListener('keydown', handleKeyDown);
+  //   document.addEventListener('contextmenu', handleContextMenu);
+  //   document.addEventListener('keydown', handleKeyDown);
 
-    return () => {
-      document.removeEventListener('contextmenu', handleContextMenu);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener('contextmenu', handleContextMenu);
+  //     document.removeEventListener('keydown', handleKeyDown);
+  //   };
+  // }, []);
 
   const SERVICE_ID = 'service_b4v41vb';
   const TEMPLATE_ID = 'template_zu78q4t';
@@ -984,7 +984,7 @@ function PortfolioContent() {
           }
 
           .animate-up {
-            transform: translateY(40px);
+            transform: translateX(40px);
           }
           .animate-up.animate-in {
             transform: translateY(0);
@@ -1065,15 +1065,33 @@ function PortfolioContent() {
           .grid-stagger.animate-in > *:nth-child(11) { transition-delay: 0.55s; opacity: 1; transform: translateY(0); }
           .grid-stagger.animate-in > *:nth-child(12) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
 
-          /* Hide scrollbar for Chrome, Safari and Opera */
-          *::-webkit-scrollbar {
-            display: none;
+          ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
           }
 
-          /* Hide scrollbar for IE, Edge and Firefox */
+          ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 10px;
+          }
+
+          ::-webkit-scrollbar-thumb {
+            background: #2b3618;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+          }
+
+          ::-webkit-scrollbar-thumb:hover {
+            background: #2b3618;
+          }
+
           * {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            scrollbar-width: thin;
+            scrollbar-color: #2b3618 #1a1a1a;
+          }
+
+          body {
+            -ms-overflow-style: -ms-autohiding-scrollbar;
           }
 
           /* Mobile-specific width fixes */
@@ -1145,130 +1163,138 @@ function PortfolioContent() {
 
 
 
-        {/* ---------------- NAV ---------------- */}
-        <header
-          className="fixed top-0 left-0 right-0 z-50 w-full"
+       {/* ---------------- NAV ---------------- */}
+<header
+  className="fixed top-0 left-0 right-0 z-50 w-full"
+  style={{ 
+    background: "rgba(11,12,16,0.72)", 
+    backdropFilter: "blur(16px)", 
+    WebkitBackdropFilter: "blur(16px)", 
+    borderBottom: `1px solid ${C.border}` 
+  }}
+>
+  <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 h-16 flex items-center justify-between max-w-[1850px] mx-auto">
+    <div>
+      <button
+        onClick={() => scrollTo("hero")}
+        className="flex items-center gap-0.5 font-bold"
+        style={{ 
+          color: C.green, 
+          fontFamily: "'JetBrains Mono', monospace" 
+        }}
+      >
+        <span className="text-xl">R</span>
+        <span className="w-1.5 h-5 animate-pulse" style={{ background: C.green }}></span>
+      </button>
+    </div>
+    
+    {/* Desktop Navigation */}
+    <div className="hidden lg:flex items-center gap-8 xl:gap-10 overflow-x-auto">
+      {NAV.map((n) => (
+        <button
+          key={n.id}
+          onClick={() => scrollTo(n.id)}
+          className="nav-link text-sm tracking-wide font-medium shrink-0 whitespace-nowrap hover:opacity-80 transition-opacity"
           style={{ 
-            background: "rgba(11,12,16,0.72)", 
-            backdropFilter: "blur(16px)", 
-            WebkitBackdropFilter: "blur(16px)", 
-            borderBottom: `1px solid ${C.border}` 
+            fontFamily: "'JetBrains Mono', monospace", 
+            color: C.textMuted 
           }}
         >
-          <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 h-16 flex items-center justify-between max-w-[1850px] mx-auto">
-            <div>
-              <button
-                onClick={() => scrollTo("hero")}
-                className="flex items-center gap-0.5 font-bold"
-                style={{ 
-                  color: C.green, 
-                  fontFamily: "'JetBrains Mono', monospace" 
-                }}
-              >
-                <span className="text-xl">R</span>
-                <span className="w-1.5 h-5 animate-pulse" style={{ background: C.green }}></span>
-              </button>
-            </div>
-            
-            <div className="hidden lg:flex items-center gap-8 xl:gap-10 overflow-x-auto">
-              {NAV.map((n) => (
-                <button
-                  key={n.id}
-                  onClick={() => scrollTo(n.id)}
-                  className="nav-link text-sm tracking-wide font-medium shrink-0 whitespace-nowrap hover:opacity-80 transition-opacity"
-                  style={{ 
-                    fontFamily: "'JetBrains Mono', monospace", 
-                    color: C.textMuted 
-                  }}
-                >
-                  {n.label.toUpperCase()}
-                </button>
-              ))}
-              {EXT_LINKS.map((l) => (
-                <Link
-                  key={l.label}
-                  to={l.href}
-                  className="ext-link flex items-center gap-1 px-3 py-1.5 rounded-md text-sm shrink-0 whitespace-nowrap"
-                  style={{ 
-                    border: `1px solid ${C.green}55`, 
-                    color: C.green, 
-                    fontFamily: "'JetBrains Mono', monospace" 
-                  }}
-                >
-                  {l.label.toUpperCase()} <ExternalLink size={11} />
-                </Link>
-              ))}
-            </div>
-            
-            <div 
-              className="flex items-center gap-2 text-sm"
-              style={{ 
-                fontFamily: "'JetBrains Mono', monospace", 
-                color: "#30D5C8" 
-              }}
-            >
-              <span 
-                className="w-1.5 h-1.5 rounded-full pulse-dot" 
-                style={{ background: "#DC143C" }} 
-              />
-              <span className="hidden md:inline">Open to Work</span>
-              <span className="md:hidden">●</span>
-              
-              <button 
-                className="lg:hidden ml-2" 
-                onClick={() => setMenuOpen((v) => !v)} 
-                aria-label="Toggle menu"
-              >
-                {menuOpen ? <X size={20} /> : <Menu size={20} />}
-              </button>
-            </div>
-          </div>
+          {n.label.toUpperCase()}
+        </button>
+      ))}
+      {EXT_LINKS.map((l) => (
+        <Link
+          key={l.label}
+          to={l.href}
+          className="ext-link flex items-center gap-1 px-3 py-1.5 rounded-md text-sm shrink-0 whitespace-nowrap"
+          style={{ 
+            border: `1px solid ${C.green}55`, 
+            color: C.green, 
+            fontFamily: "'JetBrains Mono', monospace" 
+          }}
+        >
+          {l.label.toUpperCase()} <ExternalLink size={11} />
+        </Link>
+      ))}
+    </div>
+    
+    {/* Mobile Navigation */}
+    <div className="flex items-center gap-2 text-sm">
+      {/* Resume button - visible on mobile only */}
+      <Link
+        to="/resume"
+        className="lg:hidden flex items-center gap-1 px-3 py-1.5 rounded-md text-sm shrink-0 whitespace-nowrap"
+        style={{ 
+          border: `1px solid ${C.green}55`, 
+          color: C.green, 
+          fontFamily: "'JetBrains Mono', monospace" 
+        }}
+      >
+        RESUME <ExternalLink size={11} />
+      </Link>
+      
+      {/* Open to Work - visible on desktop only with mobile style */}
+      <div className="hidden lg:flex items-center gap-2">
+        <span 
+          className="w-1.5 h-1.5 rounded-full pulse-dot" 
+          style={{ background: "#DC143C" }} 
+        />
+        <span 
+          className="text-sm"
+          style={{ 
+            fontFamily: "'JetBrains Mono', monospace", 
+            color: "#30D5C8" 
+          }}
+        >
+          Open to Work
+        </span>
+      </div>
+      
+      {/* Hamburger menu button */}
+      <button 
+        className="lg:hidden ml-2" 
+        onClick={() => setMenuOpen((v) => !v)} 
+        aria-label="Toggle menu"
+      >
+        {menuOpen ? <X size={20} /> : <Menu size={20} />}
+      </button>
+    </div>
+  </div>
 
-          {menuOpen && (
-            <div className="lg:hidden px-4 pb-4 flex flex-col gap-3 max-h-[70vh] overflow-y-auto w-full">
-              {NAV.map((n) => (
-                <button
-                  key={n.id}
-                  onClick={() => { scrollTo(n.id); setMenuOpen(false); }}
-                  className="text-sm text-left font-medium tracking-wide"
-                  style={{ 
-                    fontFamily: "'JetBrains Mono', monospace", 
-                    color: C.textMuted 
-                  }}
-                >
-                  {n.label.toUpperCase()}
-                </button>
-              ))}
-              {EXT_LINKS.map((l) => (
-                <Link
-                  key={l.label}
-                  to={l.href}
-                  className="text-sm font-medium flex items-center gap-1"
-                  style={{ 
-                    fontFamily: "'JetBrains Mono', monospace", 
-                    color: C.green 
-                  }}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {l.label.toUpperCase()} <ExternalLink size={11} />
-                </Link>
-              ))}
-              <div 
-                className="flex items-center gap-2 text-sm pt-1"
-                style={{ 
-                  fontFamily: "'JetBrains Mono', monospace", 
-                  color: C.green 
-                }}
-              >
-                <span 
-                  className="w-1.5 h-1.5 rounded-full pulse-dot" 
-                  style={{ background: C.green }} 
-                />
-                Open to Work
-              </div>
-            </div>
-          )}
-        </header>
+  {/* Mobile Dropdown Menu */}
+  {menuOpen && (
+    <div className="lg:hidden px-4 pb-4 flex flex-col gap-3 max-h-[70vh] overflow-y-auto w-full">
+      {NAV.map((n) => (
+        <button
+          key={n.id}
+          onClick={() => { scrollTo(n.id); setMenuOpen(false); }}
+          className="text-sm text-left font-medium tracking-wide"
+          style={{ 
+            fontFamily: "'JetBrains Mono', monospace", 
+            color: C.textMuted 
+          }}
+        >
+          {n.label.toUpperCase()}
+        </button>
+      ))}
+      {/* Open to Work in dropdown with same style */}
+      <div 
+        className="flex items-center gap-2 text-sm pt-1"
+        style={{ 
+          fontFamily: "'JetBrains Mono', monospace", 
+          color: "#30D5C8"
+        }}
+      >
+        <span 
+          className="w-1.5 h-1.5 rounded-full pulse-dot" 
+          style={{ background: "#DC143C" }} 
+        />
+        Open to Work
+      </div>
+    </div>
+  )}
+</header>
 
         {/* ---------------- HERO ---------------- */}
         <section id="hero" className="relative pt-32 pb-28 px-3 md:px-6 overflow-hidden w-full">
