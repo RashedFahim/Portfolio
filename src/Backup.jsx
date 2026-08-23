@@ -74,16 +74,6 @@ const EXT_LINKS = [
 ];
 
 const ORBIT_DURATION = 90;
-const ORBIT_TAGS = [
-  { label: "Full Stack Dev", angle: 270 },
-  { label: "Software Dev", angle: 315 },
-  { label: "Artificial Intelligence", angle: 0 },
-  { label: "Machine Learning", angle: 45 },
-  { label: "Video Editor", angle: 90 },
-  { label: "UI/UX Designer", angle: 135 },
-  { label: "Computer Vision", angle: 180 },
-  { label: "Embedded Systems", angle: 225 },
-];
 
 const SKILLS = [
   {
@@ -415,7 +405,7 @@ function TerminalOrb() {
         
         {/* Title bar with hover effect */}
         <div
-          className="flex items-center gap-1.5 px-4 py-3 shrink-0 transition-all duration-300 group-hover:bg-white/[0.06]"
+          className="flex items-center gap-1.5 px-4 py-3 shrink-0 transition-all duration-300 group-hover:bg-white/6"
           style={{ borderBottom: `1px solid ${C.border}`, background: "rgba(255,255,255,0.02)" }}
         >
           <span className="w-3 h-3 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg" style={{ background: "#FF5F56" }} />
@@ -813,45 +803,45 @@ function PortfolioContent() {
   }, []);
 
   // === DISABLE INSPECT ===
-  useEffect(() => {
-    // Disable right-click
-    const handleContextMenu = (e) => {
-      e.preventDefault();
-      return false;
-    };
+  // useEffect(() => {
+  //   // Disable right-click
+  //   const handleContextMenu = (e) => {
+  //     e.preventDefault();
+  //     return false;
+  //   };
 
-    // Disable keyboard shortcuts for inspect
-    const handleKeyDown = (e) => {
-      // F12 key
-      if (e.key === 'F12' || e.keyCode === 123) {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+U
-      if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+S
-      if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
-        e.preventDefault();
-        return false;
-      }
-    };
+  //   // Disable keyboard shortcuts for inspect
+  //   const handleKeyDown = (e) => {
+  //     // F12 key
+  //     if (e.key === 'F12' || e.keyCode === 123) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //     // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+  //     if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //     // Ctrl+U
+  //     if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //     // Ctrl+S
+  //     if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //   };
 
-    document.addEventListener('contextmenu', handleContextMenu);
-    document.addEventListener('keydown', handleKeyDown);
+  //   document.addEventListener('contextmenu', handleContextMenu);
+  //   document.addEventListener('keydown', handleKeyDown);
 
-    return () => {
-      document.removeEventListener('contextmenu', handleContextMenu);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener('contextmenu', handleContextMenu);
+  //     document.removeEventListener('keydown', handleKeyDown);
+  //   };
+  // }, []);
 
   const SERVICE_ID = 'service_b4v41vb';
   const TEMPLATE_ID = 'template_zu78q4t';
@@ -889,7 +879,7 @@ function PortfolioContent() {
           opacity: loading ? 0 : 1,
           transition: 'opacity 0.8s ease'
         }} 
-        className="min-h-screen"
+        className="min-h-screen w-full "
       >
         <DeveloperCursor />
 
@@ -1101,6 +1091,8 @@ function PortfolioContent() {
 
         `}</style>
 
+
+
         {/* ---------------- NAV ---------------- */}
         <header
           className="fixed top-0 left-0 right-0 z-50"
@@ -1111,7 +1103,7 @@ function PortfolioContent() {
             borderBottom: `1px solid ${C.border}` 
           }}
         >
-          <div className="max-w-[1850px] mx-auto px-2 md:px-4 h-16 flex items-center justify-between">
+          <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 h-16 flex items-center justify-between max-w-[1850px] mx-auto">
             <div>
               <button
                 onClick={() => scrollTo("hero")}
