@@ -803,45 +803,45 @@ function PortfolioContent() {
   }, []);
 
   // === DISABLE INSPECT ===
-  useEffect(() => {
-    // Disable right-click
-    const handleContextMenu = (e) => {
-      e.preventDefault();
-      return false;
-    };
+  // useEffect(() => {
+  //   // Disable right-click
+  //   const handleContextMenu = (e) => {
+  //     e.preventDefault();
+  //     return false;
+  //   };
 
-    // Disable keyboard shortcuts for inspect
-    const handleKeyDown = (e) => {
-      // F12 key
-      if (e.key === 'F12' || e.keyCode === 123) {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+U
-      if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
-        e.preventDefault();
-        return false;
-      }
-      // Ctrl+S
-      if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
-        e.preventDefault();
-        return false;
-      }
-    };
+  //   // Disable keyboard shortcuts for inspect
+  //   const handleKeyDown = (e) => {
+  //     // F12 key
+  //     if (e.key === 'F12' || e.keyCode === 123) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //     // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+  //     if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //     // Ctrl+U
+  //     if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //     // Ctrl+S
+  //     if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //   };
 
-    document.addEventListener('contextmenu', handleContextMenu);
-    document.addEventListener('keydown', handleKeyDown);
+  //   document.addEventListener('contextmenu', handleContextMenu);
+  //   document.addEventListener('keydown', handleKeyDown);
 
-    return () => {
-      document.removeEventListener('contextmenu', handleContextMenu);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener('contextmenu', handleContextMenu);
+  //     document.removeEventListener('keydown', handleKeyDown);
+  //   };
+  // }, []);
 
   const SERVICE_ID = 'service_b4v41vb';
   const TEMPLATE_ID = 'template_zu78q4t';
@@ -877,14 +877,19 @@ function PortfolioContent() {
           fontFamily: "'Inter', sans-serif",
           display: loading ? 'none' : 'block',
           opacity: loading ? 0 : 1,
-          transition: 'opacity 0.8s ease'
+          transition: 'opacity 0.8s ease',
+          overflowX: 'hidden',
+          width: '100%',
+          maxWidth: '100vw',
         }} 
-        className="min-h-screen w-full "
+        className="min-h-screen w-full"
       >
         <DeveloperCursor />
 
         <style>{`
-          html { scroll-behavior: smooth; }
+          html { scroll-behavior: smooth; overflow-x: hidden; }
+          body { overflow-x: hidden; width: 100%; max-width: 100vw; margin: 0; padding: 0; }
+          * { box-sizing: border-box; }
           .noise-bg {
             background-image:
               linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
@@ -1060,42 +1065,89 @@ function PortfolioContent() {
           .grid-stagger.animate-in > *:nth-child(11) { transition-delay: 0.55s; opacity: 1; transform: translateY(0); }
           .grid-stagger.animate-in > *:nth-child(12) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
 
-          ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
+          /* Hide scrollbar for Chrome, Safari and Opera */
+          *::-webkit-scrollbar {
+            display: none;
           }
 
-          ::-webkit-scrollbar-track {
-            background: #1a1a1a;
-            border-radius: 10px;
-          }
-
-          ::-webkit-scrollbar-thumb {
-            background: #2b3618;
-            border-radius: 10px;
-            transition: background 0.3s ease;
-          }
-
-          ::-webkit-scrollbar-thumb:hover {
-            background: #2b3618;
-          }
-
+          /* Hide scrollbar for IE, Edge and Firefox */
           * {
-            scrollbar-width: thin;
-            scrollbar-color: #2b3618 #1a1a1a;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
           }
 
-          body {
-            -ms-overflow-style: -ms-autohiding-scrollbar;
+          /* Mobile-specific width fixes */
+          @media (max-width: 768px) {
+            .max-w-\\[1850px\\] {
+              max-width: 100% !important;
+              padding-left: 1rem !important;
+              padding-right: 1rem !important;
+            }
+            section {
+              padding-left: 1rem !important;
+              padding-right: 1rem !important;
+            }
+            .px-3 {
+              padding-left: 0.75rem !important;
+              padding-right: 0.75rem !important;
+            }
+            .md\\:px-6 {
+              padding-left: 1rem !important;
+              padding-right: 1rem !important;
+            }
+            .px-4 {
+              padding-left: 1rem !important;
+              padding-right: 1rem !important;
+            }
+            .grid {
+              width: 100% !important;
+              max-width: 100% !important;
+            }
+            .w-full {
+              width: 100% !important;
+              max-width: 100% !important;
+            }
+            .max-w-2xl {
+              max-width: 100% !important;
+            }
+            .max-w-xl {
+              max-width: 100% !important;
+            }
+            .space-y-5 > * + * {
+              margin-top: 1.25rem !important;
+            }
           }
 
+          @media (max-width: 480px) {
+            .px-3 {
+              padding-left: 0.5rem !important;
+              padding-right: 0.5rem !important;
+            }
+            section {
+              padding-left: 0.5rem !important;
+              padding-right: 0.5rem !important;
+            }
+            .max-w-\\[1850px\\] {
+              padding-left: 0.5rem !important;
+              padding-right: 0.5rem !important;
+            }
+            .p-6 {
+              padding: 1rem !important;
+            }
+            .gap-4 {
+              gap: 0.75rem !important;
+            }
+            .gap-2 {
+              gap: 0.5rem !important;
+            }
+          }
         `}</style>
 
 
 
         {/* ---------------- NAV ---------------- */}
         <header
-          className="fixed top-0 left-0 right-0 z-50"
+          className="fixed top-0 left-0 right-0 z-50 w-full"
           style={{ 
             background: "rgba(11,12,16,0.72)", 
             backdropFilter: "blur(16px)", 
@@ -1173,7 +1225,7 @@ function PortfolioContent() {
           </div>
 
           {menuOpen && (
-            <div className="lg:hidden px-4 pb-4 flex flex-col gap-3 max-h-[70vh] overflow-y-auto">
+            <div className="lg:hidden px-4 pb-4 flex flex-col gap-3 max-h-[70vh] overflow-y-auto w-full">
               {NAV.map((n) => (
                 <button
                   key={n.id}
@@ -1219,11 +1271,11 @@ function PortfolioContent() {
         </header>
 
         {/* ---------------- HERO ---------------- */}
-        <section id="hero" className="relative pt-32 pb-28 px-3 md:px-6 overflow-hidden">
+        <section id="hero" className="relative pt-32 pb-28 px-3 md:px-6 overflow-hidden w-full">
           <div className="noise-bg absolute inset-0 z-0" />
-          <div className="relative z-10 max-w-[1850px] mx-auto grid md:grid-cols-2 gap-16 items-center">
+          <div className="relative z-10 max-w-[1850px] mx-auto grid md:grid-cols-2 gap-16 items-center w-full">
             <ScrollAnimate direction="right" delay={100}>
-              <div>
+              <div className="w-full">
                 <Eyebrow>CSE Graduate · BRAC University</Eyebrow>
                 <p className="text-lg mb-2" style={{ color: C.textMuted }}>
                   Hello, I'm
@@ -1267,7 +1319,7 @@ function PortfolioContent() {
             </ScrollAnimate>
 
             <ScrollAnimate direction="left" delay={200}>
-              <div className="relative flex items-center justify-center ">
+              <div className="relative flex items-center justify-center w-full">
                 <div 
                   className="w-full max-w-2xl p-6 rounded-2xl font-mono"
                   style={{ 
@@ -1284,13 +1336,13 @@ function PortfolioContent() {
         </section>
 
         {/* ---------------- ABOUT ---------------- */}
-        <section id="about" className="py-24 px-3 md:px-6" style={{ background: C.bgAlt }}>
-          <div className="max-w-[1850px] mx-auto">
+        <section id="about" className="py-24 px-3 md:px-6 w-full" style={{ background: C.bgAlt }}>
+          <div className="max-w-[1850px] mx-auto w-full">
             <div className="scroll-animate animate-up">
               <SectionHeading eyebrow="About" title="Beyond the resume" />
             </div>
 
-            <div className="grid md:grid-cols-5 gap-8">
+            <div className="grid md:grid-cols-5 gap-8 w-full">
               <div className="scroll-animate animate-left md:col-span-2">
                 <div className="relative rounded-2xl overflow-hidden group cursor-pointer p-0.5 transition-all duration-700 group-hover:shadow-[0_0_30px_rgba(31,227,138,0.15)]">
                   <div className="relative rounded-2xl overflow-hidden">
@@ -1343,7 +1395,7 @@ function PortfolioContent() {
                 </p>
 
                 <div 
-                className="relative mb-8 p-6 rounded-2xl group"
+                className="relative mb-8 p-6 rounded-2xl group w-full"
                 style={{
                   background: C.surface,
                   border: `1px solid ${C.border}`,
@@ -1374,7 +1426,7 @@ function PortfolioContent() {
                 <div className="mt-8"></div>
 
                 <div
-                  className="card-hover p-6 rounded-2xl"
+                  className="card-hover p-6 rounded-2xl w-full"
                   style={{
                     background: C.surface,
                     border: `1px solid ${C.border}`,
@@ -1424,17 +1476,17 @@ function PortfolioContent() {
         </section>
 
        {/* ---------------- SKILLS ---------------- */}
-        <section id="skills" className="py-24 px-3 md:px-6">
-          <div className="max-w-[1850px] mx-auto">
+        <section id="skills" className="py-24 px-3 md:px-6 w-full">
+          <div className="max-w-[1850px] mx-auto w-full">
             <div className="scroll-animate animate-up">
               <SectionHeading eyebrow="Skills" title="What I work with" />
             </div>
             
-            <div className="grid md:grid-cols-3 gap-5">
+            <div className="grid md:grid-cols-3 gap-5 w-full">
               {SKILLS.map((s, index) => (
                 <div 
                   key={s.category} 
-                  className="scroll-animate animate-up card-hover p-6 rounded-2xl flex flex-col h-full min-h-[200px] group transition-all duration-300 hover:-translate-y-2 hover:border-green-500/60 hover:bg-white/[0.08] hover:shadow-[0_8px_40px_rgba(31,227,138,0.08)]"
+                  className="scroll-animate animate-up card-hover p-6 rounded-2xl flex flex-col h-full min-h-[200px] group transition-all duration-300 hover:-translate-y-2 hover:border-green-500/60 hover:bg-white/[0.08] hover:shadow-[0_8px_40px_rgba(31,227,138,0.08)] w-full"
                   style={{ 
                     background: C.surface, 
                     border: `1px solid ${C.border}`,
@@ -1469,16 +1521,16 @@ function PortfolioContent() {
         </section>
 
         {/* ---------------- PROJECTS ---------------- */}
-        <section id="projects" className="py-24 px-3 md:px-6" style={{ background: C.bgAlt }}>
-          <div className="max-w-[1850px] mx-auto">
+        <section id="projects" className="py-24 px-3 md:px-6 w-full" style={{ background: C.bgAlt }}>
+          <div className="max-w-[1850px] mx-auto w-full">
             <ScrollAnimate direction="up" delay={100}>
               <SectionHeading eyebrow="Projects" title="Selected work" />
             </ScrollAnimate>
             
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-6 w-full">
               {PROJECTS.map((p, index) => (
                 <ScrollAnimate key={p.title} direction="up" delay={100 + index * 100}>
-                  <div className="card-hover p-6 rounded-2xl flex flex-col" style={{ background: C.surface, border: `1px solid ${C.border}` }}>
+                  <div className="card-hover p-6 rounded-2xl flex flex-col w-full" style={{ background: C.surface, border: `1px solid ${C.border}` }}>
                     <div className="w-10 h-1 rounded-full mb-5" style={{ background: C.green }} />
                     <h3 className="text-xl font-bold mb-2">{p.title}</h3>
                     <p className="text-sm leading-relaxed mb-5 flex-1" style={{ color: C.textMuted }}>
@@ -1507,16 +1559,16 @@ function PortfolioContent() {
         </section>
 
         {/* ---------------- EXPERIENCE ---------------- */}
-        <section id="experience" className="py-24 px-3 md:px-6">
-          <div className="max-w-[1850px] mx-auto">
+        <section id="experience" className="py-24 px-3 md:px-6 w-full">
+          <div className="max-w-[1850px] mx-auto w-full">
             <ScrollAnimate direction="up" delay={100}>
               <SectionHeading eyebrow="Experience" title="Where I've worked" />
             </ScrollAnimate>
             
-            <div className="space-y-5">
+            <div className="space-y-5 w-full">
               {EXPERIENCE.map((e, index) => (
                 <ScrollAnimate key={e.role} direction="up" delay={100 + index * 100}>
-                  <div className="card-hover p-6 rounded-2xl grid md:grid-cols-4 gap-4" style={{ background: C.surface, border: `1px solid ${C.border}` }}>
+                  <div className="card-hover p-6 rounded-2xl grid md:grid-cols-4 gap-4 w-full" style={{ background: C.surface, border: `1px solid ${C.border}` }}>
                     <div className="md:col-span-1 flex items-start gap-3">
                       <Briefcase size={18} style={{ color: C.green }} className="mt-0.5 shrink-0" />
                       <span className="text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textMuted }}>
@@ -1536,16 +1588,16 @@ function PortfolioContent() {
         </section>
 
         {/* ---------------- EDUCATION ---------------- */}
-        <section id="education" className="py-24 px-3 md:px-6" style={{ background: C.bgAlt }}>
-          <div className="max-w-[1850px] mx-auto">
+        <section id="education" className="py-24 px-3 md:px-6 w-full" style={{ background: C.bgAlt }}>
+          <div className="max-w-[1850px] mx-auto w-full">
             <ScrollAnimate direction="up" delay={100}>
               <SectionHeading eyebrow="Education" title="Academic background" />
             </ScrollAnimate>
             
-            <div className="space-y-5">
+            <div className="space-y-5 w-full">
               {EDUCATION.map((e, index) => (
                 <ScrollAnimate key={e.degree} direction="up" delay={100 + index * 100}>
-                  <div className="card-hover p-6 rounded-2xl grid md:grid-cols-4 gap-4" style={{ background: C.surface, border: `1px solid ${C.border}` }}>
+                  <div className="card-hover p-6 rounded-2xl grid md:grid-cols-4 gap-4 w-full" style={{ background: C.surface, border: `1px solid ${C.border}` }}>
                     <div className="md:col-span-1 flex items-start gap-3">
                       <GraduationCap size={18} style={{ color: C.green }} className="mt-0.5 shrink-0" />
                       <span className="text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textMuted }}>
@@ -1577,8 +1629,8 @@ function PortfolioContent() {
         </section>
 
         {/* ---------------- CONTACT ---------------- */}
-        <section id="contact" className="py-28 px-3 md:px-6">
-          <div className="max-w-[1850px] mx-auto grid md:grid-cols-5 gap-12">
+        <section id="contact" className="py-28 px-3 md:px-6 w-full">
+          <div className="max-w-[1850px] mx-auto grid md:grid-cols-5 gap-12 w-full">
             <div className="md:col-span-2">
               <ScrollAnimate direction="right" delay={100}>
                 <Eyebrow>Contact</Eyebrow>
@@ -1628,7 +1680,7 @@ function PortfolioContent() {
 
             <div className="md:col-span-3">
               <ScrollAnimate direction="left" delay={100}>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4 w-full">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="relative group">
                       <input
@@ -1706,7 +1758,7 @@ function PortfolioContent() {
 
         {/* ---------------- Footer ---------------- */}
         <ScrollAnimate direction="up" delay={100}>
-          <footer className="py-8 text-center text-xs" style={{ borderTop: `1px solid ${C.border}`, color: C.textMuted }}>
+          <footer className="py-8 text-center text-xs w-full" style={{ borderTop: `1px solid ${C.border}`, color: C.textMuted }}>
             © 2026 Md. Rashed Fahim Chowdhury.
           </footer>
         </ScrollAnimate>
