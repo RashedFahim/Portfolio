@@ -393,8 +393,8 @@ export default function Resume() {
           borderBottom: `1px solid ${C.border}`,
         }}
       >
-        <div className="max-w-[1850px] mx-auto px-2 md:px-4 h-16 flex items-center">
-          <div className="flex items-center gap-2 shrink-0 w-[100px]">
+        <div className="max-w-[1850px] mx-auto px-3 md:px-4 h-16 flex items-center">
+          <div className="flex items-center gap-2 shrink-0 w-25">
             <Link
               to="/"
               className="flex items-center gap-0.5 font-bold"

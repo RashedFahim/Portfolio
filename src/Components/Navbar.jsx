@@ -39,8 +39,8 @@ export default function Navbar() {
         borderBottom: `1px solid ${C.border}` 
       }}
     >
-      <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 h-16 flex items-center justify-between max-w-[1850px] mx-auto">
-        <div className="pl-2 md:pl-0">
+      <div className="w-full px-3 sm:px-4 md:px-6 lg:px-4 h-16 flex items-center justify-between max-w-[1850px] mx-auto">
+        <div className="pl-4 md:pl-0">
           <button
             onClick={() => scrollTo("hero")}
             className="flex items-center gap-0.5 font-bold"
