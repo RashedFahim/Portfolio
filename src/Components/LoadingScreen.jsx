@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import C from "./constants";
 
-function LoadingScreen({ onComplete }) {
+function LoadingScreen({ onComplete, onExited }) {
   const [progress, setProgress] = useState(0);
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
     // Progress is derived from elapsed time so the bar always reaches 100%
     // in ~1s, even on slow devices where timers/frames are throttled.
-    // Once full, it holds briefly (letting the width transition settle),
-    // fades out, then notifies the parent so content is revealed cleanly.
+    // Once full: hold briefly (letting the width transition settle), then
+    // start fading out while signalling the parent to fade the content in
+    // at the same time — a crossfade with no white flash in between.
     const duration = 1000;
     const start = performance.now();
     let raf;
     let fadeTimer;
-    let completeTimer;
+    let exitTimer;
 
     const tick = (now) => {
       const nextProgress = Math.min(100, Math.floor(((now - start) / duration) * 100));
@@ -23,8 +24,11 @@ function LoadingScreen({ onComplete }) {
       if (nextProgress < 100) {
         raf = requestAnimationFrame(tick);
       } else {
-        fadeTimer = setTimeout(() => setFadeOut(true), 200);
-        completeTimer = setTimeout(() => onComplete?.(), 650);
+        fadeTimer = setTimeout(() => {
+          setFadeOut(true);
+          onComplete?.();
+          exitTimer = setTimeout(() => onExited?.(), 700);
+        }, 200);
       }
     };
 
@@ -33,9 +37,9 @@ function LoadingScreen({ onComplete }) {
     return () => {
       cancelAnimationFrame(raf);
       clearTimeout(fadeTimer);
-      clearTimeout(completeTimer);
+      clearTimeout(exitTimer);
     };
-  }, [onComplete]);
+  }, [onComplete, onExited]);
 
   return (
     <div 
@@ -85,7 +89,7 @@ function LoadingScreen({ onComplete }) {
           }}
         >
           <div 
-            className="h-full rounded-full transition-all duration-300 ease-out relative"
+            className="h-full rounded-full relative"
             style={{ 
               width: `${progress}%`,
               background: `linear-gradient(90deg, ${C.green}88, ${C.green})`,

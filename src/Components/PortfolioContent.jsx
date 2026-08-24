@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useScrollAnimation } from "./useScrollAnimation";
 import DeveloperCursor from "./DeveloperCursor";
 import GlobalStyles from "./GlobalStyles";
@@ -15,17 +15,34 @@ import Footer from "./Footer";
 
 export default function PortfolioContent() {
   const [loading, setLoading] = useState(true);
+  const [revealed, setRevealed] = useState(false);
+  const [loaderGone, setLoaderGone] = useState(false);
   useScrollAnimation();
 
+  // Stable callbacks so LoadingScreen's effect isn't restarted mid-fade
+  const handleLoaderFadeStart = useCallback(() => setLoading(false), []);
+  const handleLoaderExited = useCallback(() => setLoaderGone(true), []);
+
+  // Safety net: force-reveal content if LoadingScreen can't finish
+  // (e.g. rAF throttled in a background tab)
   useEffect(() => {
-    // Safety net: force-reveal content if LoadingScreen can't finish
-    // (e.g. rAF throttled in a background tab)
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 4000);
+      setLoaderGone(true);
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, []);
+
+  // The content div is rendered with display:none while loading; flip it to
+  // visible first, then set opacity on the next frame so the 0.8s fade-in
+  // actually plays (transitions don't run straight out of display:none).
+  useEffect(() => {
+    if (!loading) {
+      const raf = requestAnimationFrame(() => setRevealed(true));
+      return () => cancelAnimationFrame(raf);
+    }
+  }, [loading]);
 
   // === DISABLE INSPECT ===
   // useEffect(() => {
@@ -70,7 +87,12 @@ export default function PortfolioContent() {
 
   return (
     <>
-      {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
+      {!loaderGone && (
+        <LoadingScreen
+          onComplete={handleLoaderFadeStart}
+          onExited={handleLoaderExited}
+        />
+      )}
 
       <div 
         style={{ 
@@ -78,8 +100,9 @@ export default function PortfolioContent() {
           color: "#F5F5F4", 
           fontFamily: "'Inter', sans-serif",
           display: loading ? 'none' : 'block',
-          opacity: loading ? 0 : 1,
+          opacity: revealed ? 1 : 0,
           transition: 'opacity 0.8s ease',
+          pointerEvents: revealed ? 'auto' : 'none',
           overflowX: 'hidden',
           width: '100%',
           maxWidth: '100vw',
