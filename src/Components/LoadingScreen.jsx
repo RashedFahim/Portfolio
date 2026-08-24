@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import C from "./constants";
 
-function LoadingScreen() {
+function LoadingScreen({ onComplete }) {
   const [progress, setProgress] = useState(0);
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
     // Progress is derived from elapsed time so the bar always reaches 100%
     // in ~1s, even on slow devices where timers/frames are throttled.
+    // Once full, it holds briefly (letting the width transition settle),
+    // fades out, then notifies the parent so content is revealed cleanly.
     const duration = 1000;
     const start = performance.now();
     let raf;
+    let fadeTimer;
+    let completeTimer;
 
     const tick = (now) => {
       const nextProgress = Math.min(100, Math.floor(((now - start) / duration) * 100));
@@ -19,14 +23,19 @@ function LoadingScreen() {
       if (nextProgress < 100) {
         raf = requestAnimationFrame(tick);
       } else {
-        setTimeout(() => setFadeOut(true), 100);
+        fadeTimer = setTimeout(() => setFadeOut(true), 200);
+        completeTimer = setTimeout(() => onComplete?.(), 650);
       }
     };
 
     raf = requestAnimationFrame(tick);
 
-    return () => cancelAnimationFrame(raf);
-  }, []);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(fadeTimer);
+      clearTimeout(completeTimer);
+    };
+  }, [onComplete]);
 
   return (
     <div 
