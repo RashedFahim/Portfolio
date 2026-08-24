@@ -103,7 +103,7 @@ function DeveloperCursor() {
   return (
     <>
       <div
-        className="fixed pointer-events-none z-[99999]"
+        className="fixed pointer-events-none z-99999"
         style={{
           left: position.x,
           top: position.y,
