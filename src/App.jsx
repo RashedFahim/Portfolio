@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import PortfolioContent from "./Components/PortfolioContent";
 import Resume from "./Components/Resume";
+import { Analytics } from "@vercel/analytics/next"
 
 /* ------------------------------------------------------------------ */
 /*  SCROLL TO TOP ON ROUTE CHANGE                                    */
@@ -30,6 +31,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<PortfolioContent />} />
         <Route path="/resume" element={<Resume />} />
+        <Analytics/>
       </Routes>
     </Router>
   );
