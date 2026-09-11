@@ -163,10 +163,10 @@ export default function Hero() {
               Hello, I'm
             </p>
             <h1 className="leading-[0.95] mb-6" style={{ fontFamily: "'Archivo Black', sans-serif" }}>
-              <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl" style={{ color: C.text }}>
+              <span className="block max-w-full break-words text-[clamp(1.625rem,8.75vw,6rem)]" style={{ color: C.text }}>
                 MD. RASHED FAHIM
               </span>
-              <span className="block text-4xl sm:text-5xl md:text-7xl lg:text-8xl mt-1" style={{ color: C.green }}>
+              <span className="block max-w-full break-words text-[clamp(1.625rem,8.75vw,6rem)] mt-1" style={{ color: C.green }}>
                 CHOWDHURY
               </span>
             </h1>

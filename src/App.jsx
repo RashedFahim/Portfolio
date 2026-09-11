@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { ReactLenis } from "lenis/react";
 import PortfolioContent from "./Components/PortfolioContent";
 import Resume from "./Components/Resume";
 import { Analytics } from "@vercel/analytics/react"
@@ -26,13 +27,22 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <Router>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<PortfolioContent />} />
-        <Route path="/resume" element={<Resume />} />
-      </Routes>
-      <Analytics />
-    </Router>
+    <ReactLenis
+      root
+      options={{
+        autoRaf: true,
+        syncTouch: false,
+        stopInertiaOnNavigate: true,
+      }}
+    >
+      <Router>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<PortfolioContent />} />
+          <Route path="/resume" element={<Resume />} />
+        </Routes>
+        <Analytics />
+      </Router>
+    </ReactLenis>
   );
 }
