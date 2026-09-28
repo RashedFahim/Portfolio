@@ -7,21 +7,28 @@ import ScrollAnimate from "./ScrollAnimate";
 const PROJECTS = [
 
   {
-  title: "Polygon Resource — Agricultural Export Website",
-  desc: "Designed and developed a modern, responsive corporate website for Polygon Resource, showcasing its agricultural export business, product portfolio, company information, and trade inquiry services for international customers.",
-  tags: ["React", "Vite", "Tailwind CSS", "Responsive Design", "Web Development"],
-  live: "https://polygon-resource.vercel.app/",
-  repo: "https://github.com/RashedFahim/Polygon-Resource",
+    title: "Polygon Resource — Agricultural Export Website",
+    desc: "Designed and developed a modern, responsive corporate website for Polygon Resource, showcasing its agricultural export business, product portfolio, company information, and trade inquiry services for international customers.",
+    tags: ["React", "Vite", "Tailwind CSS", "Responsive Design", "Web Development"],
+    live: "https://polygon-resource.vercel.app/",
+    repo: "https://github.com/RashedFahim/Polygon-Resource",
+  },
+  {
+    title: "Pac-Man Game",
+    desc: "Developed an interactive Pac-Man game in Python with OpenGL, featuring smooth character movement, collision detection, score tracking, and level progression.",
+    tags: ["Python", "OpenGL", "Glut"],
+    live: "https://pacman-maze.vercel.app/",
+    repo: "https://github.com/RashedFahim/PACMAN",
   },
 
   {
-  title: "Axon — RAG-Powered Document Research Assistant",
-  desc: "Developed a local RAG-powered document assistant that enables users to upload documents, ask natural-language questions, and receive context-aware answers with source citations using semantic search and local LLM inference.",
-  tags: ["RAG", "Ollama", "ChromaDB", "FastAPI", "React"],
-  live: "https://axon-rag.vercel.app/",
-  repo: "https://github.com/RashedFahim/axon-rag-assistant",
-},
-  
+    title: "Axon — RAG-Powered Document Research Assistant",
+    desc: "Developed a local RAG-powered document assistant that enables users to upload documents, ask natural-language questions, and receive context-aware answers with source citations using semantic search and local LLM inference.",
+    tags: ["RAG", "Ollama", "ChromaDB", "FastAPI", "React"],
+    live: "https://axon-rag.vercel.app/",
+    repo: "https://github.com/RashedFahim/axon-rag-assistant",
+  },
+
   {
     title: "Deep Learning for Automated Renal Function Analysis from DMSA Scans",
     desc: "Developed a deep learning pipeline using U-Net segmentation and ConvNeXt for automated kidney analysis from DMSA renal scans, addressing class imbalance and multi-view fusion for reliable clinical outputs.",
@@ -36,13 +43,7 @@ const PROJECTS = [
     live: "#",
     repo: "https://github.com/RashedFahim/Predicting-Student-Depression-Using-ML",
   },
-  {
-    title: "Neural Network Based Clustering of AG News Dataset",
-    desc: "Designed a neural encoder compressing embeddings into 64D latent space with K-Means clustering, evaluated using Silhouette Score and Davies-Bouldin Index for semantic document representation.",
-    tags: ["Sentence Transformer", "t-SNE", "K-Means", "Silhouette Score", "Davies-Bouldin Index"],
-    live: "#",
-    repo: "https://github.com/RashedFahim/Neural-Network-Based-Clutering-",
-  },
+  
   {
     title: "GameAid — Game Tracking & Community Web App",
     desc: "Built a Laravel web app for tracking game progress, rating games, and community interaction with premium features and an admin panel for content and user moderation.",
@@ -50,13 +51,7 @@ const PROJECTS = [
     live: "#",
     repo: "https://github.com/RashedFahim/GameAid",
   },
-  {
-    title: "Pac-Man Game",
-    desc: "Developed an interactive Pac-Man game in Python with OpenGL, featuring smooth character movement, collision detection, score tracking, and level progression.",
-    tags: ["Python", "OpenGL", "Glut"],
-    live: "#",
-    repo: "https://github.com/RashedFahim/PACMAN",
-  },
+  
   {
     title: "Smart Autonomous Rickshaw Robot",
     desc: "Built an Arduino-powered rickshaw robot with multi-sensor integration for automated fare calculation, speed monitoring, overload detection, obstacle avoidance, and telemetry logging.",
@@ -78,6 +73,13 @@ const PROJECTS = [
     live: "#",
     repo: "https://github.com/RashedFahim/Real-Estate-Property-Listing",
   },
+  {
+    title: "Neural Network Based Clustering of AG News Dataset",
+    desc: "Designed a neural encoder compressing embeddings into 64D latent space with K-Means clustering, evaluated using Silhouette Score and Davies-Bouldin Index for semantic document representation.",
+    tags: ["Sentence Transformer", "t-SNE", "K-Means", "Silhouette Score", "Davies-Bouldin Index"],
+    live: "#",
+    repo: "https://github.com/RashedFahim/Neural-Network-Based-Clutering-",
+  },
 ];
 
 export default function Projects() {
@@ -87,7 +89,7 @@ export default function Projects() {
         <ScrollAnimate direction="up" delay={100}>
           <SectionHeading eyebrow="Projects" title="Selected work" />
         </ScrollAnimate>
-        
+
         <div className="grid md:grid-cols-2 gap-6 w-full">
           {PROJECTS.map((p, index) => (
             <ScrollAnimate key={p.title} direction="up" delay={100 + index * 100}>

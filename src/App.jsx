@@ -1,28 +1,34 @@
 import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { ReactLenis } from "lenis/react";
+import { ReactLenis, useLenis } from "lenis/react";
 import PortfolioContent from "./Components/PortfolioContent";
 import Resume from "./Components/Resume";
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 
 /* ------------------------------------------------------------------ */
-/*  SCROLL TO TOP ON ROUTE CHANGE                                    */
+/*  SCROLL CONTROLLER & ROUTE RESET                                   */
 /* ------------------------------------------------------------------ */
 
-function ScrollToTop() {
+function ScrollController() {
   const { pathname } = useLocation();
+  const lenis = useLenis();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-  }, [pathname]);
+    if (lenis) {
+      window.__lenis = lenis;
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+  }, [pathname, lenis]);
 
   return null;
 }
 
 /* ------------------------------------------------------------------ */
-/*  MAIN APP WITH ROUTER                                             */
+/*  MAIN APP WITH ROUTER & OPTIMIZED SMOOTH SCROLL                   */
 /* ------------------------------------------------------------------ */
 
 export default function App() {
@@ -31,12 +37,16 @@ export default function App() {
       root
       options={{
         autoRaf: true,
-        syncTouch: false,
+        lerp: 0.09, // Optimal silky damping: instant response without sluggish latency
+        wheelMultiplier: 1.05, // Snappy wheel scroll distance
+        touchMultiplier: 1.5,
+        smoothWheel: true,
+        syncTouch: false, // Keep native 1:1 mobile touch scroll
         stopInertiaOnNavigate: true,
       }}
     >
       <Router>
-        <ScrollToTop />
+        <ScrollController />
         <Routes>
           <Route path="/" element={<PortfolioContent />} />
           <Route path="/resume" element={<Resume />} />

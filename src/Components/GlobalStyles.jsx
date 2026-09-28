@@ -21,8 +21,19 @@ export default function GlobalStyles() {
 
   return (
     <style>{`
-          html { scroll-behavior: smooth; overflow-x: hidden; }
-          body { overflow-x: hidden; width: 100%; max-width: 100vw; margin: 0; padding: 0; }
+          html {
+            scroll-behavior: auto !important;
+            
+          }
+          body {
+            
+            width: 100%;
+            max-width: 100vw;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+          }
           * { box-sizing: border-box; }
           .noise-bg {
             background-image:
@@ -33,6 +44,8 @@ export default function GlobalStyles() {
             background-size: 40px 40px, 40px 40px, auto, auto;
             mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 40%, transparent 90%);
             -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 40%, transparent 90%);
+            pointer-events: none;
+            transform: translateZ(0);
           }
           @keyframes spinSlow { from { transform: rotate(0deg);} to { transform: rotate(360deg);} }
           .ring-spin { animation: spinSlow 90s linear infinite; }
@@ -62,9 +75,13 @@ export default function GlobalStyles() {
           .ext-link { transition: border-color 0.15s ease, background 0.15s ease; }
           .ext-link:hover { border-color: ${C.green}; background: ${C.greenSoft}; }
           .card-hover {
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
+            transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        border-color 0.3s ease,
+                        background-color 0.3s ease,
+                        box-shadow 0.3s ease;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transform: translateZ(0);
           }
 
 
@@ -92,7 +109,7 @@ export default function GlobalStyles() {
             }
 
           .card-hover:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px) translateZ(0);
             border-color: ${C.green}88 !important;
             background: rgba(255, 255, 255, 0.08);
             box-shadow: 0 15px 50px rgba(31, 227, 138, 0.08),
@@ -110,43 +127,45 @@ export default function GlobalStyles() {
 
           .scroll-animate {
             opacity: 0;
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
           }
 
           .scroll-animate.animate-in {
             opacity: 1;
+            will-change: auto;
           }
 
           .animate-up {
-            transform: translateX(40px);
+            transform: translateY(35px);
           }
           .animate-up.animate-in {
             transform: translateY(0);
           }
 
           .animate-down {
-            transform: translateY(-40px);
+            transform: translateY(-35px);
           }
           .animate-down.animate-in {
             transform: translateY(0);
           }
 
           .animate-left {
-            transform: translateX(-40px);
+            transform: translateX(-35px);
           }
           .animate-left.animate-in {
             transform: translateX(0);
           }
 
           .animate-right {
-            transform: translateX(40px);
+            transform: translateX(35px);
           }
           .animate-right.animate-in {
             transform: translateX(0);
           }
 
           .animate-scale {
-            transform: scale(0.9);
+            transform: scale(0.94);
           }
           .animate-scale.animate-in {
             transform: scale(1);
@@ -199,33 +218,20 @@ export default function GlobalStyles() {
           .grid-stagger.animate-in > *:nth-child(11) { transition-delay: 0.55s; opacity: 1; transform: translateY(0); }
           .grid-stagger.animate-in > *:nth-child(12) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
 
+          /* Invisible Scrollbar */
           ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-          }
-
-          ::-webkit-scrollbar-track {
-            background: #1a1a1a;
-            border-radius: 10px;
-          }
-
-          ::-webkit-scrollbar-thumb {
-            background: #2b3618;
-            border-radius: 10px;
-            transition: background 0.3s ease;
-          }
-
-          ::-webkit-scrollbar-thumb:hover {
-            background: #2b3618;
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
           }
 
           * {
-            scrollbar-width: thin;
-            scrollbar-color: #2b3618 #1a1a1a;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
           }
 
           body {
-            -ms-overflow-style: -ms-autohiding-scrollbar;
+            -ms-overflow-style: none !important;
           }
 
           /* Mobile-specific width fixes */

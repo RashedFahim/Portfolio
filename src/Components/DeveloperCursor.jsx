@@ -1,92 +1,144 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 /* ------------------------------------------------------------------ */
-/*  CUSTOM ANIMATED CURSOR COMPONENT                                 */
+/*  HIGH-PERFORMANCE HARDWARE-ACCELERATED CUSTOM CURSOR              */
 /* ------------------------------------------------------------------ */
 
 function DeveloperCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [target, setTarget] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const dotRef = useRef(null);
+  const ringRef = useRef(null);
 
   useEffect(() => {
-    let animationFrame;
+    // Completely disable on touch / coarse pointer devices to save resources
+    if (window.matchMedia("(pointer: coarse)").matches) return;
 
-    const updatePosition = (e) => {
-      setTarget({ x: e.clientX, y: e.clientY });
-      setIsVisible(true);
+    let rafId;
+    let isVisible = false;
+    let isHovering = false;
+
+    // Mouse target coordinates
+    let mouseX = -100;
+    let mouseY = -100;
+
+    // Trailing ring coordinates
+    let ringX = -100;
+    let ringY = -100;
+
+    const handleMouseMove = (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      if (!isVisible) {
+        isVisible = true;
+        if (dotRef.current) dotRef.current.style.opacity = "1";
+        if (ringRef.current) ringRef.current.style.opacity = "1";
+      }
+
+      // Hardware-accelerated direct transform on compositor thread
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+      }
     };
 
-    const handleMouseLeave = () => setIsVisible(false);
-    const handleMouseEnter = () => setIsVisible(true);
+    const handleMouseLeave = () => {
+      isVisible = false;
+      if (dotRef.current) dotRef.current.style.opacity = "0";
+      if (ringRef.current) ringRef.current.style.opacity = "0";
+    };
+
+    const handleMouseEnter = () => {
+      isVisible = true;
+      if (dotRef.current) dotRef.current.style.opacity = "1";
+      if (ringRef.current) ringRef.current.style.opacity = "1";
+    };
 
     const handleMouseOver = (e) => {
       const target = e.target;
-      const isInteractive = target.closest(
+      const interactive = !!target.closest(
         'a, button, .clickable, [role="button"], input, textarea, .ext-link, .nav-link, .card-hover'
       );
-      setIsHovering(!!isInteractive);
+
+      if (interactive !== isHovering) {
+        isHovering = interactive;
+        if (ringRef.current && dotRef.current) {
+          if (isHovering) {
+            ringRef.current.style.width = "38px";
+            ringRef.current.style.height = "38px";
+            ringRef.current.style.borderColor = "#10B981";
+            ringRef.current.style.opacity = "1";
+            dotRef.current.style.width = "8px";
+            dotRef.current.style.height = "8px";
+          } else {
+            ringRef.current.style.width = "22px";
+            ringRef.current.style.height = "22px";
+            ringRef.current.style.borderColor = "rgba(16, 185, 129, 0.45)";
+            ringRef.current.style.opacity = "0.6";
+            dotRef.current.style.width = "5px";
+            dotRef.current.style.height = "5px";
+          }
+        }
+      }
     };
 
-    document.addEventListener('mousemove', updatePosition);
-    document.addEventListener('mouseleave', handleMouseLeave);
-    document.addEventListener('mouseenter', handleMouseEnter);
-    document.addEventListener('mouseover', handleMouseOver);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeave, { passive: true });
+    document.addEventListener("mouseenter", handleMouseEnter, { passive: true });
+    document.addEventListener("mouseover", handleMouseOver, { passive: true });
 
-    const animate = () => {
-      setPosition(prev => ({
-        x: prev.x + (target.x - prev.x) * 0.12,
-        y: prev.y + (target.y - prev.y) * 0.12,
-      }));
-      animationFrame = requestAnimationFrame(animate);
+    // Smooth RAF loop for the follower ring with lerp
+    const render = () => {
+      if (isVisible) {
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
+
+        if (ringRef.current) {
+          ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+        }
+      }
+      rafId = requestAnimationFrame(render);
     };
 
-    animate();
+    rafId = requestAnimationFrame(render);
 
     return () => {
-      document.removeEventListener('mousemove', updatePosition);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-      document.removeEventListener('mouseenter', handleMouseEnter);
-      document.removeEventListener('mouseover', handleMouseOver);
-      cancelAnimationFrame(animationFrame);
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mouseenter", handleMouseEnter);
+      document.removeEventListener("mouseover", handleMouseOver);
+      cancelAnimationFrame(rafId);
     };
-  }, [target]);
-
-  if (!isVisible) return null;
-
-  const darkGreen = '#10B981';
+  }, []);
 
   return (
     <>
+      {/* Central dot */}
       <div
-        className="fixed pointer-events-none z-99999"
+        ref={dotRef}
+        className="fixed top-0 left-0 pointer-events-none z-[99999] rounded-full will-change-transform"
         style={{
-          left: position.x,
-          top: position.y,
-          transform: 'translate(-50%, -50%)',
+          width: "5px",
+          height: "5px",
+          background: "#10B981",
+          boxShadow: "0 0 16px rgba(16, 185, 129, 0.6)",
+          opacity: 0,
+          transition: "opacity 0.2s ease, width 0.2s ease, height 0.2s ease",
+          transform: "translate3d(-100px, -100px, 0)",
         }}
-      >
-        <div
-          className="rounded-full transition-all duration-200 ease-out"
-          style={{
-            width: isHovering ? '8px' : '5px',
-            height: isHovering ? '8px' : '5px',
-            background: darkGreen,
-            boxShadow: `0 0 20px ${darkGreen}44`,
-          }}
-        />
+      />
 
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-300 ease-out"
-          style={{
-            width: isHovering ? '36px' : '22px',
-            height: isHovering ? '36px' : '22px',
-            border: `1.5px solid ${isHovering ? darkGreen : `${darkGreen}66`}`,
-            opacity: isHovering ? 1 : 0.5,
-          }}
-        />
-      </div>
+      {/* Trailing smooth ring */}
+      <div
+        ref={ringRef}
+        className="fixed top-0 left-0 pointer-events-none z-[99998] rounded-full will-change-transform"
+        style={{
+          width: "22px",
+          height: "22px",
+          border: "1.5px solid rgba(16, 185, 129, 0.45)",
+          opacity: 0,
+          transition: "opacity 0.2s ease, width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), height 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s ease",
+          transform: "translate3d(-100px, -100px, 0)",
+        }}
+      />
 
       <style>{`
         * { cursor: none !important; }

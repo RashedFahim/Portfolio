@@ -1,3 +1,10 @@
 export const scrollToId = (id) => {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  if (window.__lenis) {
+    window.__lenis.scrollTo(el, { offset: -68, duration: 1.1 });
+  } else {
+    el.scrollIntoView({ behavior: "smooth" });
+  }
 };

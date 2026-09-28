@@ -17,7 +17,7 @@ export default function PortfolioContent() {
   const [loading, setLoading] = useState(true);
   const [revealed, setRevealed] = useState(false);
   const [loaderGone, setLoaderGone] = useState(false);
-  useScrollAnimation();
+  useScrollAnimation(revealed);
 
   // Stable callbacks so LoadingScreen's effect isn't restarted mid-fade
   const handleLoaderFadeStart = useCallback(() => setLoading(false), []);
