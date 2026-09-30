@@ -66,7 +66,7 @@ export default function About() {
               style={{
                 background: C.surface,
                 border: `1px solid ${C.border}`,
-                transition: 'all 0.4s ease',
+                transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease',
               }}
             >
               {/* Left accent line */}
@@ -116,7 +116,7 @@ export default function About() {
                 </p>
               </div>
 
-              <ul className="space-y-3 text-sm" style={{ color: C.textMuted }}>
+              <ul className="stagger-children space-y-3 text-sm" style={{ color: C.textMuted }}>
                 <li className="flex items-start gap-3">
                   <span className="text-green-400 mt-0.5">✦</span>
                   <span>Building AI/ML & computer vision projects</span>

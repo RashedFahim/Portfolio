@@ -9,10 +9,14 @@ function DeveloperCursor() {
   const ringRef = useRef(null);
 
   useEffect(() => {
-    // Completely disable on touch / coarse pointer devices to save resources
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+    // Keep the pointer effect for fine mouse input only.
+    if (
+      !window.matchMedia("(hover: hover) and (pointer: fine)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) return;
 
     let rafId;
+    let isLoopRunning = false;
     let isVisible = false;
     let isHovering = false;
 
@@ -24,6 +28,30 @@ function DeveloperCursor() {
     let ringX = -100;
     let ringY = -100;
 
+    // Only keep the follower loop alive while a mouse is inside the page.
+    const render = () => {
+      if (!isVisible) {
+        isLoopRunning = false;
+        rafId = null;
+        return;
+      }
+
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+      }
+
+      rafId = requestAnimationFrame(render);
+    };
+
+    const startRender = () => {
+      if (isLoopRunning) return;
+      isLoopRunning = true;
+      rafId = requestAnimationFrame(render);
+    };
+
     const handleMouseMove = (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
@@ -33,6 +61,8 @@ function DeveloperCursor() {
         if (dotRef.current) dotRef.current.style.opacity = "1";
         if (ringRef.current) ringRef.current.style.opacity = "1";
       }
+
+      startRender();
 
       // Hardware-accelerated direct transform on compositor thread
       if (dotRef.current) {
@@ -44,6 +74,9 @@ function DeveloperCursor() {
       isVisible = false;
       if (dotRef.current) dotRef.current.style.opacity = "0";
       if (ringRef.current) ringRef.current.style.opacity = "0";
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+      isLoopRunning = false;
     };
 
     const handleMouseEnter = () => {
@@ -85,27 +118,12 @@ function DeveloperCursor() {
     document.addEventListener("mouseenter", handleMouseEnter, { passive: true });
     document.addEventListener("mouseover", handleMouseOver, { passive: true });
 
-    // Smooth RAF loop for the follower ring with lerp
-    const render = () => {
-      if (isVisible) {
-        ringX += (mouseX - ringX) * 0.18;
-        ringY += (mouseY - ringY) * 0.18;
-
-        if (ringRef.current) {
-          ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-        }
-      }
-      rafId = requestAnimationFrame(render);
-    };
-
-    rafId = requestAnimationFrame(render);
-
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);
       document.removeEventListener("mouseover", handleMouseOver);
-      cancelAnimationFrame(rafId);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -141,8 +159,13 @@ function DeveloperCursor() {
       />
 
       <style>{`
-        * { cursor: none !important; }
-        @media (hover: none) and (pointer: coarse) {
+        @media (hover: hover) and (pointer: fine) {
+          * { cursor: none !important; }
+        }
+        @media (hover: none), (pointer: coarse) {
+          .fixed.pointer-events-none { display: none !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
           * { cursor: auto !important; }
           .fixed.pointer-events-none { display: none !important; }
         }

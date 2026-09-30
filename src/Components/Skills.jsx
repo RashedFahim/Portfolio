@@ -91,15 +91,14 @@ export default function Skills() {
           <SectionHeading eyebrow="Skills" title="What I work with" />
         </div>
         
-        <div className="grid md:grid-cols-3 gap-5 w-full">
-          {SKILLS.map((s, index) => (
+        <div className="scroll-animate animate-up grid-stagger grid md:grid-cols-3 gap-5 w-full">
+          {SKILLS.map((s) => (
             <div 
               key={s.category} 
-              className="scroll-animate animate-up card-hover p-6 rounded-2xl flex flex-col h-full min-h-[200px] group transition-all duration-300 hover:-translate-y-2 hover:border-green-500/60 hover:bg-white/[0.08] hover:shadow-[0_8px_40px_rgba(31,227,138,0.08)] w-full"
+              className="skill-card card-hover p-6 rounded-2xl flex flex-col h-full min-h-[200px] group hover:border-green-500/60 hover:bg-white/[0.08] hover:shadow-[0_8px_40px_rgba(31,227,138,0.08)] w-full"
               style={{ 
                 background: C.surface, 
                 border: `1px solid ${C.border}`,
-                animationDelay: `${index * 100}ms`,
               }}
             >
               {/* Green accent line that expands on hover */}
@@ -111,7 +110,7 @@ export default function Skills() {
                 {s.items.map((item) => (
                   <span
                     key={item}
-                    className="text-xs px-3 py-1.5 rounded-md transition-all duration-300 hover:bg-white/15 hover:border-green-500/40 hover:text-white hover:scale-105"
+                    className="skill-tag text-xs px-3 py-1.5 rounded-md transition-all duration-300 hover:bg-white/15 hover:border-green-500/40 hover:text-white hover:scale-[1.02]"
                     style={{ 
                       background: "rgba(255, 255, 255, 0.05)", 
                       color: C.textMuted, 

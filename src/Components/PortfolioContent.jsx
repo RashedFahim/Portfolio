@@ -103,7 +103,8 @@ export default function PortfolioContent() {
           opacity: revealed ? 1 : 0,
           transition: 'opacity 0.8s ease',
           pointerEvents: revealed ? 'auto' : 'none',
-          overflowX: 'hidden',
+          // Clip transformed reveal edges without turning this wrapper into a vertical scroll container.
+          overflow: 'clip',
           width: '100%',
           maxWidth: '100vw',
         }} 

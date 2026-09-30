@@ -23,10 +23,12 @@ export default function GlobalStyles() {
     <style>{`
           html {
             scroll-behavior: auto !important;
-            
+            overflow-x: hidden;
+            overflow-x: clip;
           }
           body {
-            
+            overflow-x: hidden;
+            overflow-x: clip;
             width: 100%;
             max-width: 100vw;
             margin: 0;
@@ -35,6 +37,10 @@ export default function GlobalStyles() {
             -moz-osx-font-smoothing: grayscale;
           }
           * { box-sizing: border-box; }
+          section, footer {
+            overflow-x: hidden;
+            overflow-x: clip;
+          }
           .noise-bg {
             background-image:
               linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
@@ -68,14 +74,51 @@ export default function GlobalStyles() {
           .orbit-counter { animation: orbitCounterSpin ${ORBIT_DURATION}s linear infinite; }
           @keyframes pulseDot { 0%,100% { opacity:1; } 50% { opacity:0.35; } }
           .pulse-dot { animation: pulseDot 1.8s ease-in-out infinite; }
+          @keyframes navMenuIn {
+            from { opacity: 0; transform: translate3d(0, -6px, 0); }
+            to { opacity: 1; transform: translate3d(0, 0, 0); }
+          }
+          .nav-menu-enter {
+            transform-origin: top center;
+            animation: navMenuIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+          }
           .orbit-tag { transition: transform 0.2s ease, border-color 0.2s ease; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
           .orbit-tag:hover { transform: translateY(-3px); border-color: ${C.green}; }
           .nav-link { position: relative; transition: color 0.15s ease; }
           .nav-link:hover { color: ${C.text} !important; }
+          .nav-active-indicator {
+            position: absolute;
+            left: 0;
+            bottom: 1px;
+            height: 2px;
+            border-radius: 999px;
+            pointer-events: none;
+            transform-origin: left center;
+            transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+                        width 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                        opacity 0.2s ease;
+          }
           .ext-link { transition: border-color 0.15s ease, background 0.15s ease; }
           .ext-link:hover { border-color: ${C.green}; background: ${C.greenSoft}; }
+          .motion-button {
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.2s ease,
+                        box-shadow 0.25s ease,
+                        background-color 0.2s ease;
+          }
+          .motion-button:active {
+            transform: scale(0.97);
+            transition-duration: 0.08s;
+          }
+          .motion-button svg {
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          @media (hover: hover) and (pointer: fine) {
+            .motion-button:hover { transform: translateY(-2px); }
+            .motion-button:hover svg { transform: translateX(2px); }
+          }
           .card-hover {
-            transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+            transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
                         border-color 0.3s ease,
                         background-color 0.3s ease,
                         box-shadow 0.3s ease;
@@ -108,26 +151,30 @@ export default function GlobalStyles() {
               user-select: text;
             }
 
-          .card-hover:hover {
-            transform: translateY(-8px) translateZ(0);
-            border-color: ${C.green}88 !important;
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 15px 50px rgba(31, 227, 138, 0.08),
-                        inset 0 0 30px rgba(31, 227, 138, 0.02);
-          }
+          @media (hover: hover) and (pointer: fine) {
+            .card-hover:hover {
+              transform: translate3d(0, -6px, 0) scale(1.005);
+              border-color: ${C.green}88 !important;
+              background: rgba(255, 255, 255, 0.08);
+              box-shadow: 0 15px 50px rgba(31, 227, 138, 0.08),
+                          inset 0 0 30px rgba(31, 227, 138, 0.02);
+            }
 
-          .card-hover:hover h3 {
-            color: ${C.green};
-          }
+            .card-hover:hover h3 {
+              color: ${C.green};
+            }
 
-          .card-hover:hover span {
-            border-color: ${C.green}44 !important;
-            background: rgba(31, 227, 138, 0.08) !important;
+            .card-hover:hover span {
+              border-color: ${C.green}44 !important;
+              background: rgba(31, 227, 138, 0.08) !important;
+            }
           }
 
           .scroll-animate {
             opacity: 0;
-            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.56s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.62s cubic-bezier(0.16, 1, 0.3, 1);
+            transition-delay: var(--scroll-delay, 0ms);
             will-change: opacity, transform;
           }
 
@@ -137,35 +184,35 @@ export default function GlobalStyles() {
           }
 
           .animate-up {
-            transform: translateY(35px);
+            transform: translate3d(0, 18px, 0);
           }
           .animate-up.animate-in {
-            transform: translateY(0);
+            transform: translate3d(0, 0, 0);
           }
 
           .animate-down {
-            transform: translateY(-35px);
+            transform: translate3d(0, -18px, 0);
           }
           .animate-down.animate-in {
-            transform: translateY(0);
+            transform: translate3d(0, 0, 0);
           }
 
           .animate-left {
-            transform: translateX(-35px);
+            transform: translate3d(-24px, 0, 0);
           }
           .animate-left.animate-in {
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0);
           }
 
           .animate-right {
-            transform: translateX(35px);
+            transform: translate3d(24px, 0, 0);
           }
           .animate-right.animate-in {
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0);
           }
 
           .animate-scale {
-            transform: scale(0.94);
+            transform: scale(0.97);
           }
           .animate-scale.animate-in {
             transform: scale(1);
@@ -180,20 +227,32 @@ export default function GlobalStyles() {
 
           .stagger-children > * {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translate3d(0, 12px, 0);
+            transition: opacity 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.48s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
           }
 
-          .stagger-children.animate-in > *:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: translateY(0); }
-          .stagger-children.animate-in > *:nth-child(2) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
-          .stagger-children.animate-in > *:nth-child(3) { transition-delay: 0.15s; opacity: 1; transform: translateY(0); }
-          .stagger-children.animate-in > *:nth-child(4) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
-          .stagger-children.animate-in > *:nth-child(5) { transition-delay: 0.25s; opacity: 1; transform: translateY(0); }
-          .stagger-children.animate-in > *:nth-child(6) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
-          .stagger-children.animate-in > *:nth-child(7) { transition-delay: 0.35s; opacity: 1; transform: translateY(0); }
-          .stagger-children.animate-in > *:nth-child(8) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
-          .stagger-children.animate-in > *:nth-child(9) { transition-delay: 0.45s; opacity: 1; transform: translateY(0); }
-          .stagger-children.animate-in > *:nth-child(10) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+          .stagger-children.animate-in > *:nth-child(1),
+          .scroll-animate.animate-in .stagger-children > *:nth-child(1) { transition-delay: 0.04s; opacity: 1; transform: translate3d(0, 0, 0); will-change: auto; }
+          .stagger-children.animate-in > *:nth-child(2),
+          .scroll-animate.animate-in .stagger-children > *:nth-child(2) { transition-delay: 0.08s; opacity: 1; transform: translate3d(0, 0, 0); will-change: auto; }
+          .stagger-children.animate-in > *:nth-child(3),
+          .scroll-animate.animate-in .stagger-children > *:nth-child(3) { transition-delay: 0.12s; opacity: 1; transform: translate3d(0, 0, 0); will-change: auto; }
+          .stagger-children.animate-in > *:nth-child(4),
+          .scroll-animate.animate-in .stagger-children > *:nth-child(4) { transition-delay: 0.16s; opacity: 1; transform: translate3d(0, 0, 0); will-change: auto; }
+          .stagger-children.animate-in > *:nth-child(5),
+          .scroll-animate.animate-in .stagger-children > *:nth-child(5) { transition-delay: 0.2s; opacity: 1; transform: translate3d(0, 0, 0); will-change: auto; }
+          .stagger-children.animate-in > *:nth-child(6),
+          .scroll-animate.animate-in .stagger-children > *:nth-child(6) { transition-delay: 0.24s; opacity: 1; transform: translate3d(0, 0, 0); will-change: auto; }
+          .stagger-children.animate-in > *:nth-child(7),
+          .scroll-animate.animate-in .stagger-children > *:nth-child(7) { transition-delay: 0.28s; opacity: 1; transform: translate3d(0, 0, 0); will-change: auto; }
+          .stagger-children.animate-in > *:nth-child(8),
+          .scroll-animate.animate-in .stagger-children > *:nth-child(8) { transition-delay: 0.32s; opacity: 1; transform: translate3d(0, 0, 0); will-change: auto; }
+          .stagger-children.animate-in > *:nth-child(9),
+          .scroll-animate.animate-in .stagger-children > *:nth-child(9) { transition-delay: 0.36s; opacity: 1; transform: translate3d(0, 0, 0); will-change: auto; }
+          .stagger-children.animate-in > *:nth-child(10),
+          .scroll-animate.animate-in .stagger-children > *:nth-child(10) { transition-delay: 0.4s; opacity: 1; transform: translate3d(0, 0, 0); will-change: auto; }
 
           .grid-stagger {
             display: grid;
@@ -201,37 +260,193 @@ export default function GlobalStyles() {
 
           .grid-stagger > * {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translate3d(0, 14px, 0);
+            transition: opacity 0.52s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.52s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
           }
 
-          .grid-stagger.animate-in > *:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: translateY(0); }
-          .grid-stagger.animate-in > *:nth-child(2) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
-          .grid-stagger.animate-in > *:nth-child(3) { transition-delay: 0.15s; opacity: 1; transform: translateY(0); }
-          .grid-stagger.animate-in > *:nth-child(4) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
-          .grid-stagger.animate-in > *:nth-child(5) { transition-delay: 0.25s; opacity: 1; transform: translateY(0); }
-          .grid-stagger.animate-in > *:nth-child(6) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
-          .grid-stagger.animate-in > *:nth-child(7) { transition-delay: 0.35s; opacity: 1; transform: translateY(0); }
-          .grid-stagger.animate-in > *:nth-child(8) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
-          .grid-stagger.animate-in > *:nth-child(9) { transition-delay: 0.45s; opacity: 1; transform: translateY(0); }
-          .grid-stagger.animate-in > *:nth-child(10) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
-          .grid-stagger.animate-in > *:nth-child(11) { transition-delay: 0.55s; opacity: 1; transform: translateY(0); }
-          .grid-stagger.animate-in > *:nth-child(12) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
+          .grid-stagger.animate-in > *:nth-child(1) { transition-delay: 0.04s; opacity: 1; transform: translate3d(0, 0, 0); }
+          .grid-stagger.animate-in > *:nth-child(2) { transition-delay: 0.08s; opacity: 1; transform: translate3d(0, 0, 0); }
+          .grid-stagger.animate-in > *:nth-child(3) { transition-delay: 0.12s; opacity: 1; transform: translate3d(0, 0, 0); }
+          .grid-stagger.animate-in > *:nth-child(4) { transition-delay: 0.16s; opacity: 1; transform: translate3d(0, 0, 0); }
+          .grid-stagger.animate-in > *:nth-child(5) { transition-delay: 0.2s; opacity: 1; transform: translate3d(0, 0, 0); }
+          .grid-stagger.animate-in > *:nth-child(6) { transition-delay: 0.24s; opacity: 1; transform: translate3d(0, 0, 0); }
+          .grid-stagger.animate-in > *:nth-child(7) { transition-delay: 0.28s; opacity: 1; transform: translate3d(0, 0, 0); }
+          .grid-stagger.animate-in > *:nth-child(8) { transition-delay: 0.32s; opacity: 1; transform: translate3d(0, 0, 0); }
+          .grid-stagger.animate-in > *:nth-child(9) { transition-delay: 0.36s; opacity: 1; transform: translate3d(0, 0, 0); }
+          .grid-stagger.animate-in > *:nth-child(10) { transition-delay: 0.4s; opacity: 1; transform: translate3d(0, 0, 0); }
+          .grid-stagger.animate-in > *:nth-child(11) { transition-delay: 0.44s; opacity: 1; transform: translate3d(0, 0, 0); }
+          .grid-stagger.animate-in > *:nth-child(12) { transition-delay: 0.48s; opacity: 1; transform: translate3d(0, 0, 0); }
 
-          /* Invisible Scrollbar */
+          .section-eyebrow,
+          .section-title,
+          .section-description {
+            opacity: 0;
+            transform: translate3d(0, 10px, 0);
+            transition: opacity 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.48s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+          }
+          .scroll-animate.animate-in .section-eyebrow,
+          .scroll-animate.animate-in .section-title,
+          .scroll-animate.animate-in .section-description {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            will-change: auto;
+          }
+          .scroll-animate.animate-in .section-eyebrow {
+            transition-delay: calc(var(--scroll-delay, 0ms) + 40ms);
+          }
+          .scroll-animate.animate-in .section-title {
+            transition-delay: calc(var(--scroll-delay, 0ms) + 100ms);
+          }
+          .scroll-animate.animate-in .section-description {
+            transition-delay: calc(var(--scroll-delay, 0ms) + 150ms);
+          }
+
+          .hero-item {
+            opacity: 0;
+            transform: translate3d(0, 12px, 0);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition-delay: calc(var(--scroll-delay, 0ms) + var(--hero-delay, 0ms));
+            will-change: opacity, transform;
+          }
+          .scroll-animate.animate-in .hero-item {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            will-change: auto;
+          }
+
+          .skill-tag {
+            opacity: 0;
+            transform: translate3d(0, 6px, 0);
+            transition: opacity 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+                        background-color 0.2s ease,
+                        border-color 0.2s ease,
+                        color 0.2s ease;
+          }
+          .grid-stagger.animate-in .skill-tag {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+          }
+          .grid-stagger.animate-in > * {
+            will-change: auto;
+          }
+          .grid-stagger.animate-in .skill-tag:nth-child(1) { transition-delay: 0.06s; }
+          .grid-stagger.animate-in .skill-tag:nth-child(2) { transition-delay: 0.09s; }
+          .grid-stagger.animate-in .skill-tag:nth-child(3) { transition-delay: 0.12s; }
+          .grid-stagger.animate-in .skill-tag:nth-child(4) { transition-delay: 0.15s; }
+          .grid-stagger.animate-in .skill-tag:nth-child(5) { transition-delay: 0.18s; }
+          .grid-stagger.animate-in .skill-tag:nth-child(6) { transition-delay: 0.21s; }
+          .grid-stagger.animate-in .skill-tag:nth-child(7) { transition-delay: 0.24s; }
+          .grid-stagger.animate-in .skill-tag:nth-child(8) { transition-delay: 0.27s; }
+
+          .project-accent {
+            transform-origin: left center;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          .project-card h3 {
+            transition: color 0.25s ease;
+          }
+          .project-link svg {
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          .experience-icon {
+            opacity: 0;
+            transform: scale(0.82);
+            transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          .scroll-animate.animate-in .experience-icon {
+            opacity: 1;
+            transform: scale(1);
+            transition-delay: calc(var(--scroll-delay, 0ms) + 90ms);
+          }
+          @media (hover: hover) and (pointer: fine) {
+            .grid-stagger.animate-in > .card-hover:hover {
+              transform: translate3d(0, -6px, 0) scale(1.005);
+            }
+            .project-card:hover .project-accent {
+              transform: scaleX(1.28);
+            }
+            .project-link:hover svg {
+              transform: translate3d(2px, -2px, 0);
+            }
+          }
+
           ::-webkit-scrollbar {
-            display: none !important;
-            width: 0 !important;
-            height: 0 !important;
+            width: 5px;
+            height: 5px;
+          }
+
+          ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 10px;
+          }
+
+          ::-webkit-scrollbar-thumb {
+            background: #2b3618;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+          }
+
+          ::-webkit-scrollbar-thumb:hover {
+            background: #2b3618;
           }
 
           * {
-            scrollbar-width: none !important;
-            -ms-overflow-style: none !important;
+            scrollbar-width: thin;
+            scrollbar-color: #2b3618 #1a1a1a;
           }
 
           body {
-            -ms-overflow-style: none !important;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            html,
+            body {
+              scroll-behavior: auto !important;
+            }
+            *,
+            *::before,
+            *::after {
+              animation-duration: 0.01ms !important;
+              animation-iteration-count: 1 !important;
+              transition-duration: 0.01ms !important;
+              transition-delay: 0ms !important;
+            }
+            .scroll-animate,
+            .scroll-animate.animate-in,
+            .section-eyebrow,
+            .section-title,
+            .section-description,
+            .hero-item,
+            .skill-tag,
+            .experience-icon,
+            .stagger-children > *,
+            .grid-stagger > * {
+              opacity: 1 !important;
+              transform: none !important;
+              transition: none !important;
+              transition-delay: 0ms !important;
+              animation: none !important;
+            }
+            .nav-active-indicator {
+              transition: none !important;
+            }
+          }
+
+          @media (max-width: 640px) {
+            .animate-left:not(.animate-in) {
+              transform: translate3d(-18px, 0, 0);
+            }
+            .animate-right:not(.animate-in) {
+              transform: translate3d(18px, 0, 0);
+            }
           }
 
           /* Mobile-specific width fixes */

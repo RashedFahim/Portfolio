@@ -31,18 +31,18 @@ export default function Contact() {
     <section id="contact" className="py-28 px-3 md:px-6 w-full">
       <div className="max-w-[1850px] mx-auto grid md:grid-cols-5 gap-12 w-full">
         <div className="md:col-span-2">
-          <ScrollAnimate direction="right" delay={100}>
+          <ScrollAnimate direction="right" delay={60}>
             <Eyebrow>Contact</Eyebrow>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
+            <h2 className="section-title text-3xl md:text-4xl font-bold mb-6 leading-tight">
               Let's build something worth shipping
             </h2>
-            <p className="text-sm mb-8" style={{ color: C.textMuted }}>
+            <p className="section-description text-sm mb-8" style={{ color: C.textMuted }}>
               Open to internships, freelance work, and interesting
               collaborations. I usually reply within a day.
             </p>
           </ScrollAnimate>
           
-          <ScrollAnimate direction="right" delay={150}>
+          <ScrollAnimate direction="right" delay={90}>
             <div className="space-y-4 mb-8">
               <a href="mailto:rashedfahimchowdhury@gmail.com" className="flex items-center gap-3 text-sm">
                 <Mail size={16} style={{ color: C.green }} /> rashedfahimchowdhury@gmail.com
@@ -53,13 +53,13 @@ export default function Contact() {
             </div>
           </ScrollAnimate>
           
-          <ScrollAnimate direction="right" delay={200}>
-            <div className="flex gap-4">
+          <ScrollAnimate direction="right" delay={120}>
+            <div className="stagger-children flex gap-4">
               <a 
                 href="https://github.com/RashedFahim" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:border-green-500 hover:bg-green-500/10"
+                className="motion-button w-10 h-10 rounded-full flex items-center justify-center hover:border-green-500 hover:bg-green-500/10"
                 style={{ border: `1px solid ${C.border}` }}
               >
                 <Github size={16} />
@@ -68,7 +68,7 @@ export default function Contact() {
                 href="https://www.linkedin.com/in/rashedfahim/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:border-green-500 hover:bg-green-500/10"
+                className="motion-button w-10 h-10 rounded-full flex items-center justify-center hover:border-green-500 hover:bg-green-500/10"
                 style={{ border: `1px solid ${C.border}` }}
               >
                 <Linkedin size={16} />
@@ -78,7 +78,7 @@ export default function Contact() {
         </div>
 
         <div className="md:col-span-3">
-          <ScrollAnimate direction="left" delay={100}>
+          <ScrollAnimate direction="left" delay={80}>
             <form onSubmit={handleSubmit} className="space-y-4 w-full">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="relative group">
@@ -144,7 +144,7 @@ export default function Contact() {
               </div>
               <button
                 type="submit"
-                className="px-7 py-3.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(31,227,138,0.3)]"
+                className="motion-button px-7 py-3.5 rounded-lg text-sm font-bold flex items-center gap-2 hover:shadow-[0_0_30px_rgba(31,227,138,0.3)]"
                 style={{ background: C.green, color: "#17181C" }}
               >
                 {sent ? "Message sent ✓" : "Send message"} <Send size={15} />

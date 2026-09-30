@@ -43,7 +43,7 @@ const PROJECTS = [
     live: "#",
     repo: "https://github.com/RashedFahim/Predicting-Student-Depression-Using-ML",
   },
-  
+
   {
     title: "GameAid — Game Tracking & Community Web App",
     desc: "Built a Laravel web app for tracking game progress, rating games, and community interaction with premium features and an admin panel for content and user moderation.",
@@ -51,7 +51,7 @@ const PROJECTS = [
     live: "#",
     repo: "https://github.com/RashedFahim/GameAid",
   },
-  
+
   {
     title: "Smart Autonomous Rickshaw Robot",
     desc: "Built an Arduino-powered rickshaw robot with multi-sensor integration for automated fare calculation, speed monitoring, overload detection, obstacle avoidance, and telemetry logging.",
@@ -86,15 +86,15 @@ export default function Projects() {
   return (
     <section id="projects" className="py-24 px-3 md:px-6 w-full" style={{ background: C.bgAlt }}>
       <div className="max-w-[1850px] mx-auto w-full">
-        <ScrollAnimate direction="up" delay={100}>
+        <ScrollAnimate direction="up" delay={60}>
           <SectionHeading eyebrow="Projects" title="Selected work" />
         </ScrollAnimate>
 
         <div className="grid md:grid-cols-2 gap-6 w-full">
           {PROJECTS.map((p, index) => (
-            <ScrollAnimate key={p.title} direction="up" delay={100 + index * 100}>
-              <div className="card-hover p-6 rounded-2xl flex flex-col w-full" style={{ background: C.surface, border: `1px solid ${C.border}` }}>
-                <div className="w-10 h-1 rounded-full mb-5" style={{ background: C.green }} />
+            <ScrollAnimate key={p.title} direction="up" delay={70 + index * 45}>
+              <div className="project-card card-hover p-6 rounded-2xl flex flex-col w-full" style={{ background: C.surface, border: `1px solid ${C.border}` }}>
+                <div className="project-accent w-10 h-1 rounded-full mb-5" style={{ background: C.green }} />
                 <h3 className="text-xl font-bold mb-2">{p.title}</h3>
                 <p className="text-sm leading-relaxed mb-5 flex-1" style={{ color: C.textMuted }}>
                   {p.desc}
@@ -107,10 +107,10 @@ export default function Projects() {
                   ))}
                 </div>
                 <div className="flex gap-5">
-                  <a href={p.live} className="text-sm font-medium flex items-center gap-1.5" style={{ color: C.green }}>
+                  <a href={p.live} className="project-link text-sm font-medium flex items-center gap-1.5" style={{ color: C.green }}>
                     View Live <ArrowUpRight size={14} />
                   </a>
-                  <a href={p.repo} className="text-sm font-medium flex items-center gap-1.5">
+                  <a href={p.repo} className="project-link text-sm font-medium flex items-center gap-1.5">
                     <Github size={14} /> GitHub
                   </a>
                 </div>

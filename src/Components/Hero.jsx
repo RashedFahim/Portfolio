@@ -80,7 +80,7 @@ function TerminalOrb() {
       />
       
       <div
-        className="relative w-full flex flex-col overflow-hidden rounded-2xl transition-all duration-500 group-hover:shadow-[0_0_80px_rgba(31,227,138,0.08)] group-hover:border-green-500/40 group-hover:scale-[1.01]"
+        className="relative w-full flex flex-col overflow-hidden rounded-2xl transition-all duration-500 group-hover:shadow-[0_0_80px_rgba(31,227,138,0.08)] group-hover:border-green-500/40 group-hover:scale-[1.005]"
         style={{ 
           fontFamily: "'JetBrains Mono', monospace",
           border: `1px solid transparent`,
@@ -156,13 +156,19 @@ export default function Hero() {
     <section id="hero" className="relative pt-32 pb-28 px-3 md:px-6 overflow-hidden w-full">
       <div className="noise-bg absolute inset-0 z-0" />
       <div className="relative z-10 max-w-[1850px] mx-auto grid md:grid-cols-2 gap-16 items-center w-full">
-        <ScrollAnimate direction="right" delay={100}>
+        <ScrollAnimate direction="right" delay={60}>
           <div className="w-full">
-            <Eyebrow>CSE Graduate · BRAC University</Eyebrow>
-            <p className="text-lg mb-2" style={{ color: C.textMuted }}>
+            <Eyebrow className="hero-item">CSE Graduate · BRAC University</Eyebrow>
+            <p
+              className="hero-item text-lg mb-2"
+              style={{ color: C.textMuted, "--hero-delay": "40ms" }}
+            >
               Hello, I'm
             </p>
-            <h1 className="leading-[0.95] mb-6" style={{ fontFamily: "'Archivo Black', sans-serif" }}>
+            <h1
+              className="hero-item leading-[0.95] mb-6"
+              style={{ fontFamily: "'Archivo Black', sans-serif", "--hero-delay": "100ms" }}
+            >
               <span className="block max-w-full break-words text-[clamp(1.625rem,8.75vw,6rem)]" style={{ color: C.text }}>
                 MD. RASHED FAHIM
               </span>
@@ -170,28 +176,41 @@ export default function Hero() {
                 CHOWDHURY
               </span>
             </h1>
-            <div className="w-16 h-1 rounded-full mb-6" style={{ background: C.green }} />
+            <div
+              className="hero-item w-16 h-1 rounded-full mb-6"
+              style={{ background: C.green, "--hero-delay": "160ms" }}
+            />
             <p
-              className="text-sm md:text-base tracking-wide mb-6"
-              style={{ color: C.textMuted, fontFamily: "'JetBrains Mono', monospace" }}
+              className="hero-item text-sm md:text-base tracking-wide mb-6"
+              style={{
+                color: C.textMuted,
+                fontFamily: "'JetBrains Mono', monospace",
+                "--hero-delay": "200ms",
+              }}
             >
               AI/ML ENGINEER · Frontend Developer
             </p>
-            <p className="text-base leading-relaxed mb-10 max-w-xl" style={{ color: C.textMuted }}>
+            <p
+              className="hero-item text-base leading-relaxed mb-10 max-w-xl"
+              style={{ color: C.textMuted, "--hero-delay": "260ms" }}
+            >
               A <b style={{ color: C.text }}>Computer Science graduate</b> focused on building intelligent systems at the intersection of{" "}
               <b style={{ color: C.text }}>Artificial Intelligence, Machine Learning, and software engineering</b>. I enjoy turning complex problems into practical, scalable solutions — from AI-powered applications to real-world computer vision systems.
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div
+              className="hero-item flex flex-wrap gap-4"
+              style={{ "--hero-delay": "330ms" }}
+            >
               <button
                 onClick={() => scrollToId("projects")}
-                className="px-6 py-3.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(31,227,138,0.3)]"
+                className="motion-button px-6 py-3.5 rounded-lg text-sm font-bold flex items-center gap-2 hover:shadow-[0_0_30px_rgba(31,227,138,0.3)]"
                 style={{ background: C.green, color: "#17181C" }}
               >
                 VIEW GITHUB <ArrowRight size={16} />
               </button>
               <button
                 onClick={() => scrollToId("contact")}
-                className="px-6 py-3.5 rounded-lg text-sm font-bold transition-all duration-300 hover:scale-105 hover:border-green-500 hover:bg-green-500/10"
+                className="motion-button px-6 py-3.5 rounded-lg text-sm font-bold hover:border-green-500 hover:bg-green-500/10"
                 style={{ border: `1px solid ${C.border}` }}
               >
                 GET IN TOUCH
@@ -200,7 +219,7 @@ export default function Hero() {
           </div>
         </ScrollAnimate>
 
-        <ScrollAnimate direction="left" delay={200}>
+        <ScrollAnimate direction="left" delay={140}>
           <div className="relative flex items-center justify-center w-full">
             <div 
               className="w-full max-w-2xl p-6 rounded-2xl font-mono"

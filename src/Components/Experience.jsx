@@ -22,16 +22,16 @@ export default function Experience() {
   return (
     <section id="experience" className="py-24 px-3 md:px-6 w-full">
       <div className="max-w-[1850px] mx-auto w-full">
-        <ScrollAnimate direction="up" delay={100}>
+        <ScrollAnimate direction="up" delay={60}>
           <SectionHeading eyebrow="Experience" title="Where I've worked" />
         </ScrollAnimate>
         
         <div className="space-y-5 w-full">
           {EXPERIENCE.map((e, index) => (
-            <ScrollAnimate key={e.role} direction="up" delay={100 + index * 100}>
-              <div className="card-hover p-6 rounded-2xl grid md:grid-cols-4 gap-4 w-full" style={{ background: C.surface, border: `1px solid ${C.border}` }}>
+            <ScrollAnimate key={e.role} direction="up" delay={70 + index * 70}>
+              <div className="experience-card card-hover p-6 rounded-2xl grid md:grid-cols-4 gap-4 w-full" style={{ background: C.surface, border: `1px solid ${C.border}` }}>
                 <div className="md:col-span-1 flex items-start gap-3">
-                  <Briefcase size={18} style={{ color: C.green }} className="mt-0.5 shrink-0" />
+                  <Briefcase size={18} style={{ color: C.green }} className="experience-icon mt-0.5 shrink-0" />
                   <span className="text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textMuted }}>
                     {e.period}
                   </span>

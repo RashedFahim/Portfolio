@@ -31,13 +31,13 @@ export default function Education() {
   return (
     <section id="education" className="py-24 px-3 md:px-6 w-full" style={{ background: C.bgAlt }}>
       <div className="max-w-[1850px] mx-auto w-full">
-        <ScrollAnimate direction="up" delay={100}>
+        <ScrollAnimate direction="up" delay={60}>
           <SectionHeading eyebrow="Education" title="Academic background" />
         </ScrollAnimate>
         
         <div className="space-y-5 w-full">
           {EDUCATION.map((e, index) => (
-            <ScrollAnimate key={e.degree} direction="up" delay={100 + index * 100}>
+            <ScrollAnimate key={e.degree} direction="up" delay={70 + index * 60}>
               <div className="card-hover p-6 rounded-2xl grid md:grid-cols-4 gap-4 w-full" style={{ background: C.surface, border: `1px solid ${C.border}` }}>
                 <div className="md:col-span-1 flex items-start gap-3">
                   <GraduationCap size={18} style={{ color: C.green }} className="mt-0.5 shrink-0" />

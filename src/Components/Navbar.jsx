@@ -24,8 +24,15 @@ const EXT_LINKS = [
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const [activeIndicator, setActiveIndicator] = useState({
+    opacity: 0,
+    width: 0,
+    transform: "translate3d(0, 0, 0)",
+  });
   const isClickingRef = useRef(false);
   const clickTimeoutRef = useRef(null);
+  const desktopNavRef = useRef(null);
+  const navItemRefs = useRef(new Map());
 
   // Scroll detection to highlight active section
   useEffect(() => {
@@ -96,6 +103,35 @@ export default function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    const updateIndicator = () => {
+      const nav = desktopNavRef.current;
+      const activeItem = navItemRefs.current.get(activeSection);
+
+      if (!nav || !activeItem) {
+        setActiveIndicator((current) => ({ ...current, opacity: 0 }));
+        return;
+      }
+
+      const navRect = nav.getBoundingClientRect();
+      const itemRect = activeItem.getBoundingClientRect();
+
+      setActiveIndicator({
+        opacity: 1,
+        width: itemRect.width,
+        transform: `translate3d(${itemRect.left - navRect.left}px, 0, 0)`,
+      });
+    };
+
+    const raf = requestAnimationFrame(updateIndicator);
+    window.addEventListener("resize", updateIndicator, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", updateIndicator);
+    };
+  }, [activeSection]);
+
   const scrollTo = (id) => {
     if (id === "hero") {
       setActiveSection("");
@@ -138,38 +174,41 @@ export default function Navbar() {
         </div>
         
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-8 xl:gap-10 overflow-x-auto">
-          {NAV.map((n) => {
-            const isActive = activeSection === n.id;
-            return (
-              <button
-                key={n.id}
-                onClick={() => scrollTo(n.id)}
-                className="nav-link text-sm tracking-wide font-medium shrink-0 whitespace-nowrap relative py-1 hover:opacity-80 transition-colors"
+          <div ref={desktopNavRef} className="relative hidden lg:flex items-center gap-8 xl:gap-10 overflow-x-auto">
+            <span
+              aria-hidden="true"
+              className="nav-active-indicator"
+              style={{
+                background: C.green,
+                boxShadow: `0 0 8px ${C.green}88`,
+                ...activeIndicator,
+              }}
+            />
+            {NAV.map((n) => {
+              const isActive = activeSection === n.id;
+              return (
+                <button
+                  key={n.id}
+                  onClick={() => scrollTo(n.id)}
+                  ref={(node) => {
+                    if (node) navItemRefs.current.set(n.id, node);
+                    else navItemRefs.current.delete(n.id);
+                  }}
+                  className="nav-link text-sm tracking-wide font-medium shrink-0 whitespace-nowrap relative py-1 hover:opacity-80 transition-colors"
                 style={{ 
                   fontFamily: "'JetBrains Mono', monospace", 
                   color: isActive ? C.text : C.textMuted 
                 }}
-              >
-                {n.label.toUpperCase()}
-                <span
-                  aria-hidden="true"
-                  className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full pointer-events-none transition-all duration-300 ease-out origin-center"
-                  style={{
-                    background: C.green,
-                    boxShadow: `0 0 8px ${C.green}88`,
-                    transform: isActive ? "scaleX(1)" : "scaleX(0)",
-                    opacity: isActive ? 1 : 0,
-                  }}
-                />
-              </button>
-            );
+                >
+                  {n.label.toUpperCase()}
+                </button>
+              );
           })}
           {EXT_LINKS.map((l) => (
             <Link
               key={l.label}
               to={l.href}
-              className="ext-link flex items-center gap-1 px-3 py-1.5 rounded-md text-sm shrink-0 whitespace-nowrap"
+              className="motion-button ext-link flex items-center gap-1 px-3 py-1.5 rounded-md text-sm shrink-0 whitespace-nowrap"
               style={{ 
                 border: `1px solid ${C.green}55`, 
                 color: C.green, 
@@ -186,7 +225,7 @@ export default function Navbar() {
           {/* Resume button - visible on mobile only */}
           <Link
             to="/resume"
-            className="lg:hidden flex items-center gap-1 px-3 py-1.5 rounded-md text-sm shrink-0 whitespace-nowrap"
+            className="motion-button lg:hidden flex items-center gap-1 px-3 py-1.5 rounded-md text-sm shrink-0 whitespace-nowrap"
             style={{ 
               border: `1px solid ${C.green}55`, 
               color: C.green, 
@@ -218,6 +257,7 @@ export default function Navbar() {
             className="lg:hidden ml-2" 
             onClick={() => setMenuOpen((v) => !v)} 
             aria-label="Toggle menu"
+            aria-expanded={menuOpen}
           >
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -226,7 +266,7 @@ export default function Navbar() {
 
       {/* Mobile Dropdown Menu */}
       {menuOpen && (
-        <div className="lg:hidden px-4 pb-4 flex flex-col gap-3 max-h-[70vh] overflow-y-auto w-full">
+        <div className="nav-menu-enter lg:hidden px-4 pb-4 flex flex-col gap-3 max-h-[70vh] overflow-y-auto w-full">
           {NAV.map((n) => {
             const isActive = activeSection === n.id;
             return (

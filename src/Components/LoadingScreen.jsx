@@ -2,10 +2,19 @@ import { useEffect, useState } from "react";
 import C from "./constants";
 
 function LoadingScreen({ onComplete, onExited }) {
-  const [progress, setProgress] = useState(0);
-  const [fadeOut, setFadeOut] = useState(false);
+  const prefersReducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const [progress, setProgress] = useState(() => (prefersReducedMotion ? 100 : 0));
+  const [fadeOut, setFadeOut] = useState(() => prefersReducedMotion);
 
   useEffect(() => {
+    if (prefersReducedMotion) {
+      onComplete?.();
+      onExited?.();
+      return undefined;
+    }
+
     // Progress is derived from elapsed time so the bar always reaches 100%
     // in ~1s, even on slow devices where timers/frames are throttled.
     // Once full: hold briefly (letting the width transition settle), then
@@ -39,7 +48,7 @@ function LoadingScreen({ onComplete, onExited }) {
       clearTimeout(fadeTimer);
       clearTimeout(exitTimer);
     };
-  }, [onComplete, onExited]);
+  }, [onComplete, onExited, prefersReducedMotion]);
 
   return (
     <div 

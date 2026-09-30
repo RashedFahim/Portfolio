@@ -32,15 +32,19 @@ function ScrollController() {
 /* ------------------------------------------------------------------ */
 
 export default function App() {
+  const prefersReducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   return (
     <ReactLenis
       root
       options={{
         autoRaf: true,
-        lerp: 0.09, // Optimal silky damping: instant response without sluggish latency
+        lerp: prefersReducedMotion ? 1 : 0.09, // Keep native-feeling motion for reduced-motion users
         wheelMultiplier: 1.05, // Snappy wheel scroll distance
         touchMultiplier: 1.5,
-        smoothWheel: true,
+        smoothWheel: !prefersReducedMotion,
         syncTouch: false, // Keep native 1:1 mobile touch scroll
         stopInertiaOnNavigate: true,
       }}

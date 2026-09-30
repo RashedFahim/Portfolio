@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Menu, X, Download, ArrowLeft } from "lucide-react";
 import DeveloperCursor from "./DeveloperCursor";
 import ScrollAnimate from "./ScrollAnimate";
+import GlobalStyles from "./GlobalStyles";
+import { useScrollAnimation } from "./useScrollAnimation";
 
 const C = {
   bg: "#0A0A0B",
@@ -14,19 +16,6 @@ const C = {
   green: "#1FE38A",
   greenSoft: "rgba(31,227,138,0.16)",
 };
-
-function useGoogleFonts() {
-  useEffect(() => {
-    const id = "portfolio-rc-fonts";
-    if (document.getElementById(id)) return;
-    const link = document.createElement("link");
-    link.id = id;
-    link.rel = "stylesheet";
-    link.href =
-      "https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap";
-    document.head.appendChild(link);
-  }, []);
-}
 
 function Eyebrow({ children }) {
   return (
@@ -46,7 +35,7 @@ function Eyebrow({ children }) {
 }
 
 export default function Resume() {
-  useGoogleFonts();
+  useScrollAnimation(true);
   const [menuOpen, setMenuOpen] = useState(false);
 
   // === DISABLE INSPECT ===
@@ -105,6 +94,8 @@ export default function Resume() {
       style={{ background: C.bg, color: C.text, fontFamily: "'Inter', sans-serif" }}
       className="min-h-screen"
     >
+      <GlobalStyles />
+
       {/* Custom Cursor */}
       <DeveloperCursor />
 
@@ -146,73 +137,6 @@ export default function Resume() {
           user-select: text;
         }
 
-        /* Scroll Animation Styles */
-        .scroll-animate {
-          opacity: 0;
-          transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .scroll-animate.animate-in {
-          opacity: 1;
-        }
-
-        .animate-up {
-          transform: translateY(40px);
-        }
-        .animate-up.animate-in {
-          transform: translateY(0);
-        }
-
-        .animate-down {
-          transform: translateY(-40px);
-        }
-        .animate-down.animate-in {
-          transform: translateY(0);
-        }
-
-        .animate-left {
-          transform: translateX(-40px);
-        }
-        .animate-left.animate-in {
-          transform: translateX(0);
-        }
-
-        .animate-right {
-          transform: translateX(40px);
-        }
-        .animate-right.animate-in {
-          transform: translateX(0);
-        }
-
-        .animate-scale {
-          transform: scale(0.9);
-        }
-        .animate-scale.animate-in {
-          transform: scale(1);
-        }
-
-        .animate-fade {
-          opacity: 0;
-        }
-        .animate-fade.animate-in {
-          opacity: 1;
-        }
-
-        /* Invisible Scrollbar */
-        ::-webkit-scrollbar {
-          display: none !important;
-          width: 0 !important;
-          height: 0 !important;
-        }
-
-        * {
-          scrollbar-width: none !important;
-          -ms-overflow-style: none !important;
-        }
-
-        body {
-          -ms-overflow-style: none !important;
-        }
       `}</style>
 
       {/* NAVBAR */}
@@ -265,7 +189,7 @@ export default function Resume() {
           <div className="flex items-center gap-2 shrink-0 w-[100px] justify-end">
             <button
               onClick={handleDownloadPDF}
-              className="flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(31,227,138,0.3)] whitespace-nowrap"
+              className="motion-button flex items-center gap-1.5 px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-medium hover:shadow-[0_0_30px_rgba(31,227,138,0.3)] whitespace-nowrap"
               style={{
                 background: C.green,
                 color: "#17181C",
@@ -311,7 +235,7 @@ export default function Resume() {
             </span>
             <button
               onClick={handleDownloadPDF}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium"
+              className="motion-button flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium"
               style={{
                 background: C.green,
                 color: "#17181C",

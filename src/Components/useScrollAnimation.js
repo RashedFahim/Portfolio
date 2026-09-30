@@ -4,24 +4,40 @@ export function useScrollAnimation(active = true) {
   useEffect(() => {
     if (!active) return;
 
-    const observerOptions = {
-      threshold: 0.05,
-      rootMargin: "0px 0px -40px 0px",
+    const elements = Array.from(
+      document.querySelectorAll(".scroll-animate:not(.animate-in)")
+    );
+
+    if (!elements.length) return;
+
+    const revealAll = () => {
+      elements.forEach((element) => element.classList.add("animate-in"));
     };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      revealAll();
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
           entry.target.classList.add("animate-in");
           observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -24px 0px" }
+    );
 
-    // Give DOM a frame to ensure display:block layout is calculated
+    // Wait for display/layout changes before measuring the initial viewport.
     const raf = requestAnimationFrame(() => {
-      const elements = document.querySelectorAll(".scroll-animate:not(.animate-in)");
-      elements.forEach((el) => observer.observe(el));
+      elements.forEach((element) => observer.observe(element));
     });
 
     return () => {
